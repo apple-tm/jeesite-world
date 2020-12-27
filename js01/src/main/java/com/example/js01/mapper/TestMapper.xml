@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.js01.mapper.TestMapper">
+
+  <resultMap id="BaseResultMap" type="com.example.js01.entity.RegisterUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+
+  <select id="selectRegisterUser" parameterType="com.example.js01.entity.RegisterUser" resultMap="BaseResultMap">
+      select id, name, password, email, phone, address, status,
+             updated_by, updated_time, created_by, created_time
+      from js01_register_user
+      where 1=1
+      <if test="id != null">
+          and id = #{id}
+      </if>
+      <if test="name != null">
+          and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null">
+          and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+          and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+          and email = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+          and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+          and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="createdTime != null">
+          and created_time = #{createdTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createdBy != null">
+          and created_by = #{createdBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updatedTime != null">
+          and updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedBy != null">
+          and updated_by = #{updatedBy,jdbcType=VARCHAR}
+      </if>
+      <if test="startPage != null and pageSize !=null">
+          limit #{startPage},#{pageSize}
+      </if>
+  </select>
+
+  <insert id="insertOne" parameterType="com.example.js01.entity.RegisterUser">
+      insert into js01_register_user(name, password, phone, created_by, updated_by)
+      values (#{name}, #{password}, #{phone}, #{createdBy}, #{updatedBy})
+  </insert>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+      insert into js01_register_user(name, password, phone, created_by, updated_by)
+      values
+      <foreach collection ="list" item="registerUser" index= "index" separator =",">
+      (#{registerUser.name}, #{registerUser.password}, #{registerUser.phone},
+          #{registerUser.createdBy}, #{registerUser.updatedBy})
+      </foreach>
+  </insert>
+
+  <delete id="deleteOne" parameterType="java.lang.Integer">
+    delete from js01_register_user where id = #{id}
+  </delete>
+
+  <delete id="deleteBatch" parameterType="java.util.List">
+    delete from js01_register_user where id
+    in
+      <foreach collection ="list" item="registerUser" index= "index" open="(" separator="," close=")">
+          #{registerUser.id}
+      </foreach>
+  </delete>
+
+  <update id="updateOne" parameterType="com.example.js01.entity.RegisterUser">
+      update js01_register_user
+      <set>
+          <if test="name != null">
+              name = #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="password != null">
+              password = #{password,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null">
+              email = #{email,jdbcType=VARCHAR},
+          </if>
+          <if test="phone != null">
+              phone = #{phone,jdbcType=VARCHAR},
+          </if>
+          <if test="address != null">
+              address = #{address,jdbcType=VARCHAR},
+          </if>
+          <if test="status != null">
+              status = #{status,jdbcType=VARCHAR},
+          </if>
+          <if test="createdTime != null">
+              created_time = #{createdTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="createdBy != null">
+              created_by = #{createdBy,jdbcType=VARCHAR},
+          </if>
+          <if test="updatedTime != null">
+              updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updatedBy != null">
+              updated_by = #{updatedBy,jdbcType=VARCHAR}
+          </if>
+      </set>
+      where id = #{id}
+  </update>
+
+</mapper>

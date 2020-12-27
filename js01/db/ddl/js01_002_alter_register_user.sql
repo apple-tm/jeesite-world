@@ -1,0 +1,1 @@
+alter table `js01_register_user` ADD unique(`phone`)
