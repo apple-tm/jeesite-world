@@ -3,11 +3,20 @@ package com.example.js01.entity;
 /**
  * 保险人
  */
-public class Insurer {
+public class Insurer extends BaseEntity{
+    private Integer id;
     private String corporateName;
     private String corporateAddress;
     private String phoneNumber;
     private String postalCode;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCorporateName() {
         return corporateName;
