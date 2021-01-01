@@ -1,7 +1,9 @@
 package com.example.js01.controller;
 
+import ch.qos.logback.classic.pattern.SyslogStartConverter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.example.js01.entity.ChangePassword;
 import com.example.js01.entity.LoginReqDTO;
 import com.example.js01.entity.RegisterUser;
 import com.example.js01.service.RegisterUserService;
@@ -39,7 +41,8 @@ public class RegisterController {
                 if (registerUser.getPassword().equals(registerUser.getRePassword())) {
                     // 注册操作
                     Integer count = registerService.registerUser(registerUser);
-                    return count.equals(1) ? "注册成功" : "注册失败";
+                    System.out.println(count);
+                    return count>0 ? count.toString() : "注册失败";
                 } else {
                     return "两次输入的密码不一致";
                 }
@@ -114,4 +117,13 @@ public class RegisterController {
             return JSON.toJSONString(e.getMessage());
         }
     }
+
+
+    @PostMapping(value = "/changePassword")
+    @ResponseBody
+    // @RequestParam可以映射 URL 参数， 不使用直接用参数名也可以映射
+    public String changePassword(@RequestBody ChangePassword changePassword) {
+        return registerService.changePassword(changePassword);
+    }
+
 }

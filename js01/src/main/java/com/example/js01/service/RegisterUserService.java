@@ -1,5 +1,6 @@
 package com.example.js01.service;
 
+import com.example.js01.entity.ChangePassword;
 import com.example.js01.entity.LoginReqDTO;
 import com.example.js01.entity.RegisterUser;
 
@@ -27,4 +28,6 @@ public interface RegisterUserService {
     List<RegisterUser> login(LoginReqDTO loginReqDTO) throws Exception;
 
     List<RegisterUser> pageQuery(RegisterUser registerUser) throws Exception;
+
+    String changePassword(ChangePassword changePassword);
 }

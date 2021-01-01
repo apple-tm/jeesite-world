@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.js01.mapper.TypesOfInsuranceMapper">
+    <!--添加保险类型-->
+    <insert id="addInsurance" parameterType="com.example.js01.entity.TypesOfInsurance">
+        INSERT INTO TYPESOFINSURANCE(typeOfInsurance,insuranceAmount,accidentAbsoluteDeductible,irrespectiveOfPercentage,
+        insurancePremium,status,created_Time,created_By,updated_Time,updated_By)
+        VALUES (#{typeOfInsurance},#{insuranceAmount},#{accidentAbsoluteDeductible},#{irrespectiveOfPercentage},
+        #{insurancePremium},#{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
+    </insert>
+
+
+</mapper>
+

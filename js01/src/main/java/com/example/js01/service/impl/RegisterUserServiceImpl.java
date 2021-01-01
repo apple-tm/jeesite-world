@@ -1,5 +1,6 @@
 package com.example.js01.service.impl;
 
+import com.example.js01.entity.ChangePassword;
 import com.example.js01.entity.LoginReqDTO;
 import com.example.js01.entity.RegisterUser;
 import com.example.js01.mapper.TestMapper;
@@ -38,10 +39,11 @@ public class RegisterUserServiceImpl implements RegisterUserService {
     @Override
     public Integer registerUser(RegisterUser registerUser) {
         registerUser.setPassword(Encryption.encryp(registerUser.getPassword()));
-        registerUser.setName(new StringBuilder().append(registerUser.getRePassword()).append("_游客").toString());
+        registerUser.setName(new StringBuilder().append(registerUser.getPhone()).append("_游客").toString());
         registerUser.setCreatedBy("超级管理员");
         registerUser.setUpdatedBy("超级管理员");
-        return testMapper.insertOne(registerUser);
+        int count = testMapper.insertOne(registerUser);
+        return count;
     }
 
     @Override
@@ -123,5 +125,62 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         } else {
             throw new Exception("分页参数为空");
         }
+    }
+
+    @Override
+    public String changePassword(ChangePassword changePassword) {
+        if (changePassword != null
+                && changePassword.getPhone() != null
+                && !"".equals(changePassword.getPhone().trim())
+                && changePassword.getPassword() != null
+                && !"".equals(changePassword.getPassword().trim())
+                && changePassword.getNewPassword() != null
+                && !"".equals(changePassword.getNewPassword().trim())
+                && changePassword.getNewRePassword() != null
+                && !"".equals(changePassword.getNewRePassword().trim()))
+        {
+            if (changePassword.getNewPassword().equals(changePassword.getNewRePassword())){
+
+                RegisterUser registerUser = new RegisterUser();
+                registerUser.setPhone(changePassword.getPhone());
+                registerUser.setPassword(Encryption.encryp(changePassword.getPassword()));
+                int count = testMapper.selectRegisterUser(registerUser).size();
+                if (count == 1){
+                    registerUser.setPassword(Encryption.encryp(changePassword.getNewPassword()));
+                    if (testMapper.updateOne(registerUser) == 1){
+                        return "密码修改成功";
+                    }
+                    else return "密码修改失败";
+                }else {
+                    return "手机号或者密码错误";
+                }
+            }else
+            {
+            return "两次密码不一致";
+            }
+        } else {
+            return "信息不完整";
+        }
+    }
+
+    public static void main(String[] args) {
+        String str = "RegisterUser registerUser = new RegisterUser();\n" +
+                "                registerUser.setPhone(changePassword.getPhone());\n" +
+                "                registerUser.setPassword(Encryption.encryp(changePassword.getPassword()));\n" +
+                "                int count = testMapper.selectRegisterUser(registerUser).size();\n" +
+                "                if (count == 1){\n" +
+                "                    registerUser.setPassword(Encryption.encryp(changePassword.getNewPassword()));\n" +
+                "                    if (testMapper.updateOne(registerUser) == 1){\n" +
+                "                        return \"密码修改成功\";\n" +
+                "                    }\n" +
+                "                    else return \"密码修改失败\";\n" +
+                "                }else {\n" +
+                "                    return \"手机号或者密码错误\";\n" +
+                "                }\n" +
+                "            }else\n" +
+                "            {\n" +
+                "            return \"两次密码不一致\";";
+
+
     }
 }

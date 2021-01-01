@@ -1,5 +1,6 @@
 package com.example.js01.mapper;
 
+import com.example.js01.entity.ChangePassword;
 import com.example.js01.entity.RegisterUser;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -55,5 +56,7 @@ public interface TestMapper {
      * @return
      */
     List<RegisterUser> selectRegisterUser(RegisterUser registerUser);
+
+    Integer changePassword(RegisterUser registerUser);
 
 }

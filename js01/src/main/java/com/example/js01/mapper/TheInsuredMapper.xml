@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.js01.mapper.TheInsuredMapper">
+    <!--添加被保险人-->
+    <insert id="addTheInsured" parameterType="com.example.js01.entity.TheInsured">
+        INSERT INTO THEINSURED(InsuredName,InsuredIdNumber,DriverSLicense,address,
+        telephoneNumber,status,created_Time,created_By,updated_Time,updated_By)
+        VALUES (#{insuredName},#{insuredIdNumber},#{driverSLicense},#{address},
+        #{telephoneNumber},#{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
+    </insert>
+</mapper>
+

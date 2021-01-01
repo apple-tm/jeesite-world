@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.js01.mapper.InsuranceOrderMapper">
+    <!--添加保险类型-->
+    <insert id="addInsuranceOrder" parameterType="com.example.js01.entity.InsuranceOrder">
+        INSERT INTO insurancevehicles(plateNumber,numberPlateColour,vhicleType,brandModel,
+        engineumberN,vinOrFrameNumber,carColor,nuclearLoad,nuclearLoadMass,displacement,
+        negotiatingRealValue,DateOfFirstRegistration,natureOfUse,vehicleUse,
+        status,created_Time,created_By,updated_Time,updated_By)
+        VALUES (#{plateNumber},#{numberPlateColour},#{vhicleType},#{brandModel},
+        #{engineumberN},#{vinOrFrameNumber},#{carColor},#{nuclearLoad},#{nuclearLoadMass},#{displacement},
+        #{negotiatingRealValue},#{DateOfFirstRegistration},#{natureOfUse},#{vehicleUse},
+        #{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
+    </insert>
+</mapper>
+
