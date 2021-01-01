@@ -1,4 +1,4 @@
-
+drop table if exists `Insurer`;
 CREATE TABLE `Insurer`(
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '保险人id',
   `corporateName` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '保险公司名称',

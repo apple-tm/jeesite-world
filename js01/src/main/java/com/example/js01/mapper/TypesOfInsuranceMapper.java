@@ -8,6 +8,5 @@ import java.util.List;
 @Mapper
 public interface TypesOfInsuranceMapper {
     Integer addInsurance(TypesOfInsurance insurance);
-
-    Integer deleteInsurance(List<String> insurances);
+    List<TypesOfInsurance> selectByIn(List<Integer> idList);
 }

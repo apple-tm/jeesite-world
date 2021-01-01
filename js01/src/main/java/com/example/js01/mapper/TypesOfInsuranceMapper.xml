@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.js01.mapper.TypesOfInsuranceMapper">
+    <resultMap id="BaseResultMap" type="com.example.js01.entity.TypesOfInsurance">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="typeOfInsurance" jdbcType="VARCHAR" property="typeOfInsurance" />
+        <result column="insuranceAmount" jdbcType="VARCHAR" property="insuranceAmount" />
+        <result column="accidentAbsoluteDeductible" jdbcType="VARCHAR" property="accidentAbsoluteDeductible" />
+        <result column="irrespectiveOfPercentage" jdbcType="VARCHAR" property="irrespectiveOfPercentage" />
+        <result column="insurancePremium" jdbcType="DOUBLE" property="insurancePremium" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    </resultMap>
     <!--添加保险类型-->
     <insert id="addInsurance" parameterType="com.example.js01.entity.TypesOfInsurance">
-        INSERT INTO TYPESOFINSURANCE(typeOfInsurance,insuranceAmount,accidentAbsoluteDeductible,irrespectiveOfPercentage,
+        INSERT INTO TYPESOFINSURANCE(typeOfInsurance,insuranceAmount,
+                                     accidentAbsoluteDeductible,
+                                     irrespectiveOfPercentage,
         insurancePremium,status,created_Time,created_By,updated_Time,updated_By)
-        VALUES (#{typeOfInsurance},#{insuranceAmount},#{accidentAbsoluteDeductible},#{irrespectiveOfPercentage},
-        #{insurancePremium},#{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
+        VALUES (#{typeOfInsurance},#{insuranceAmount},
+                #{accidentAbsoluteDeductible},#{irrespectiveOfPercentage},
+        #{insurancePremium},#{status},#{createdTime},
+                #{createdBy},#{updatedTime},#{updatedBy})
     </insert>
 
+    <select id="selectByIn" parameterType="list" resultMap="BaseResultMap">
+      select id,typeOfInsurance,insuranceAmount,
+              accidentAbsoluteDeductible,
+              irrespectiveOfPercentage,
+              insurancePremium,status,created_Time,created_By,updated_Time,updated_By
+        from TYPESOFINSURANCE
+        where id
+        in
+        <foreach collection ="list" item="registerUser" index= "index" open="(" separator="," close=")">
+            #{registerUser}
+        </foreach>
+    </select>
 
 </mapper>
 

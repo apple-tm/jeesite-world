@@ -1,6 +1,5 @@
 package com.example.js01.controller;
 
-import com.example.js01.entity.InsuranceVehicles;
 import com.example.js01.entity.Insurer;
 import com.example.js01.service.InsurerService;
 import org.springframework.beans.factory.annotation.Autowired;

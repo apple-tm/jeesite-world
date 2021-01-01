@@ -4,7 +4,7 @@
     <!--添加被保险人-->
     <insert id="addTheInsured" parameterType="com.example.js01.entity.TheInsured">
         INSERT INTO THEINSURED(InsuredName,InsuredIdNumber,DriverSLicense,address,
-        telephoneNumber,status,created_Time,created_By,updated_Time,updated_By)
+        telephoneNumber,status,created_time,created_by,updated_time,updated_by)
         VALUES (#{insuredName},#{insuredIdNumber},#{driverSLicense},#{address},
         #{telephoneNumber},#{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
     </insert>

@@ -20,9 +20,6 @@ CREATE TABLE `InsuranceVehicles` (
   `created_by` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '创建人 ',
   `updated_time` datetime DEFAULT NULL COMMENT '更新时间',
   `updated_by` varchar(20) COLLATE utf8_unicode_ci COMMENT '更新人',
+
   PRIMARY KEY (`id`)
-
-
-
-
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

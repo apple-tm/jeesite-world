@@ -1,24 +1,49 @@
 package com.example.js01.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
  *订单
  */
-public class InsuranceOrder {
-    private Integer orderId;
+public class InsuranceOrder extends BaseEntity {
+
+    private Integer id;
+    private BigDecimal feeSum;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date insureStartTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date insureEndTime;
     private TheInsured theInsured;
+    private Insurer insurer;
     private List<TypesOfInsurance> typesOfInsurance;
     private List<InsuranceVehicles> insuranceVehicles ;
-    private Insurer insurer;
 
-
-    public Integer getOrderId() {
-        return orderId;
+    public BigDecimal getFeeSum() {
+        return feeSum;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setFeeSum(BigDecimal feeSum) {
+        this.feeSum = feeSum;
+    }
+
+    public Date getInsureStartTime() {
+        return insureStartTime;
+    }
+
+    public void setInsureStartTime(Date insureStartTime) {
+        this.insureStartTime = insureStartTime;
+    }
+
+    public Date getInsureEndTime() {
+        return insureEndTime;
+    }
+
+    public void setInsureEndTime(Date insureEndTime) {
+        this.insureEndTime = insureEndTime;
     }
 
     public TheInsured getTheInsured() {
@@ -27,6 +52,14 @@ public class InsuranceOrder {
 
     public void setTheInsured(TheInsured theInsured) {
         this.theInsured = theInsured;
+    }
+
+    public Insurer getInsurer() {
+        return insurer;
+    }
+
+    public void setInsurer(Insurer insurer) {
+        this.insurer = insurer;
     }
 
     public List<TypesOfInsurance> getTypesOfInsurance() {
@@ -45,11 +78,11 @@ public class InsuranceOrder {
         this.insuranceVehicles = insuranceVehicles;
     }
 
-    public Insurer getInsurer() {
-        return insurer;
+    public Integer getId() {
+        return id;
     }
 
-    public void setInsurer(Insurer insurer) {
-        this.insurer = insurer;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

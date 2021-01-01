@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 保险类型类
  */
-public class TypesOfInsurance {
+public class TypesOfInsurance  extends  BaseEntity{
 
     private Integer id;
 
@@ -21,83 +21,11 @@ public class TypesOfInsurance {
     //每次事故绝对免赔额/率
     private String accidentAbsoluteDeductible;
 
-    //不计免赔率
+    //不计免赔率 noCal...
     private String irrespectiveOfPercentage;
 
     //保险费
     private Double insurancePremium;
-
-    private String status;
-    // 解析表单时间
-//     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    // 解析 JSON 时间
-//     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date createdTime;
-    private String createdBy;
-    //     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date  updatedTime;
-    private String updatedBy;
-
-
-    @Override
-    public String toString() {
-        return "TypesOfInsurance{" +
-                "id=" + id +
-                ", typeOfInsurance='" + typeOfInsurance + '\'' +
-                ", insuranceAmount=" + insuranceAmount +
-                ", accidentAbsoluteDeductible='" + accidentAbsoluteDeductible + '\'' +
-                ", irrespectiveOfPercentage='" + irrespectiveOfPercentage + '\'' +
-                ", insurancePremium=" + insurancePremium +
-                ", status='" + status + '\'' +
-                ", createdTime=" + createdTime +
-                ", createdBy='" + createdBy + '\'' +
-                ", updatedTime=" + updatedTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                '}';
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedTime() {
-        return updatedTime;
-    }
-
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
 
     public Integer getId() {
         return id;

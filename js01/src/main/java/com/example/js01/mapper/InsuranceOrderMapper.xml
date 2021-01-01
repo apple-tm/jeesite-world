@@ -2,15 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.js01.mapper.InsuranceOrderMapper">
     <!--添加保险类型-->
-    <insert id="addInsuranceOrder" parameterType="com.example.js01.entity.InsuranceOrder">
-        INSERT INTO insurancevehicles(plateNumber,numberPlateColour,vhicleType,brandModel,
-        engineumberN,vinOrFrameNumber,carColor,nuclearLoad,nuclearLoadMass,displacement,
-        negotiatingRealValue,DateOfFirstRegistration,natureOfUse,vehicleUse,
-        status,created_Time,created_By,updated_Time,updated_By)
-        VALUES (#{plateNumber},#{numberPlateColour},#{vhicleType},#{brandModel},
-        #{engineumberN},#{vinOrFrameNumber},#{carColor},#{nuclearLoad},#{nuclearLoadMass},#{displacement},
-        #{negotiatingRealValue},#{DateOfFirstRegistration},#{natureOfUse},#{vehicleUse},
-        #{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
+    <insert id="addInsuranceOrder"  useGeneratedKeys="true" keyProperty="id"  keyColumn="id"  parameterType="com.example.js01.entity.InsuranceOrder">
+        INSERT INTO InsuranceOrder
+                (fee_sum,
+                 insure_start_time,
+                 insure_end_time,
+                 insurer_id,
+                 status,
+                 `created_time`,
+                 `created_by`,
+                 `updated_time`,
+                 `updated_by`,
+                 `the_insured_id`
+        )
+        VALUES
+               (#{feeSum},
+                #{insureStartTime},
+                #{insureEndTime},
+                #{insurer.id},
+                #{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy},
+                #{theInsured.id})
     </insert>
+
+    <insert id="addInsuranceOrderToCar" parameterType="com.example.js01.entity.InsuranceOrderToCar">
+        INSERT INTO InsuranceOrderToCar
+                (order_id,
+                 car_id,
+                 status,
+                 `created_time`,
+                 `created_by`,
+                 `updated_time`,
+                 `updated_by`
+                        )
+        VALUES
+        <foreach collection ="list" item="registerUser" index= "index" separator =",">
+            (#{registerUser.orderId},
+            #{registerUser.carId},
+            #{registerUser.status},
+            #{registerUser.createdTime},
+            #{registerUser.createdBy},
+            #{registerUser.updatedTime},
+            #{registerUser.updatedBy})
+        </foreach>
+    </insert>
+
+    <insert id="addInsuranceOrderToRisk" parameterType="com.example.js01.entity.InsuranceOrderToRisk">
+        INSERT INTO InsuranceOrderToInsureType
+        (order_id,
+        insure_id,
+        status,
+        `created_time`,
+        `created_by`,
+        `updated_time`,
+        `updated_by`
+        )
+        VALUES
+        <foreach collection ="list" item="registerUser" index= "index" separator =",">
+            (#{registerUser.orderId},
+            #{registerUser.insureId},
+            #{registerUser.status},
+            #{registerUser.createdTime},
+            #{registerUser.createdBy},
+            #{registerUser.updatedTime},
+            #{registerUser.updatedBy})
+        </foreach>
+    </insert>
+
 </mapper>
 
