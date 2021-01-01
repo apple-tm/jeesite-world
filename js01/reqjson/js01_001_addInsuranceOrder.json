@@ -1,0 +1,25 @@
+{
+  "orderId": 1,
+  "theInsured": {
+    "id": 1
+  },
+  "typesOfInsurance": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ],
+  "insuranceVehicles": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ],
+  "insurer": {
+    "id": 1
+  }
+}
