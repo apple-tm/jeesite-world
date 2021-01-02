@@ -1,7 +1,6 @@
 {
-  "orderId": 1,
   "theInsured": {
-    "id": 1
+    "id": 2
   },
   "typesOfInsurance": [
     {
@@ -21,5 +20,7 @@
   ],
   "insurer": {
     "id": 1
-  }
+  },
+  "insureStartTime": "2021-01-01 24:00:00",
+  "insureEndTime": "2023-12-31 24:00:00"
 }
