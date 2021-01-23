@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02DeptMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Dept">
+    <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="dept_grade" jdbcType="INTEGER" property="deptGrade" />
+    <result column="dept_parent_id" jdbcType="INTEGER" property="deptParentId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dept_id, dept_code, dept_name, dept_grade, dept_parent_id, status, created_by, created_time, 
+    updated_by, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_dept
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_dept
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Dept">
+    insert into js02_dept (dept_id, dept_code, dept_name, 
+      dept_grade, dept_parent_id, status, 
+      created_by, created_time, updated_by, 
+      updated_time)
+    values (#{deptId,jdbcType=INTEGER}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{deptGrade,jdbcType=INTEGER}, #{deptParentId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Dept">
+    insert into js02_dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="deptGrade != null">
+        dept_grade,
+      </if>
+      <if test="deptParentId != null">
+        dept_parent_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptGrade != null">
+        #{deptGrade,jdbcType=INTEGER},
+      </if>
+      <if test="deptParentId != null">
+        #{deptParentId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Dept">
+    update js02_dept
+    <set>
+      <if test="deptCode != null and deptCode != ''">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null and deptName != ''">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptGrade != null and deptGrade != ''">
+        dept_grade = #{deptGrade,jdbcType=INTEGER},
+      </if>
+      <if test="deptParentId != null and deptParentId != ''">
+        dept_parent_id = #{deptParentId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null and createdBy != ''">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null and createdTime != ''">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null and updatedBy != ''">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null and updatedTime != ''">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Dept">
+    update js02_dept
+    set dept_code = #{deptCode,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      dept_grade = #{deptGrade,jdbcType=INTEGER},
+      dept_parent_id = #{deptParentId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from js02_dept
+  </select>
+  
+  
+  <select id="selectDept" resultType="List" resultMap="BaseResultMap">
+    select * from js02_dept WHERE dept_id = #{deptId};
+  </select>
+
+  <!--查询机构总记录条数-->
+  <select id="deptTotolSize" resultType="java.lang.Integer">
+    SELECT count(0) FROM js02_dept WHERE status = ${1}
+  </select>
+  <!--分页查询-->
+  <select id="selectAllDept" resultMap="BaseResultMap" resultType="List">
+    select
+    <include refid="Base_Column_List" />
+    from js02_dept WHERE status = ${1} limit #{offSet},#{pageSize}
+  </select>
+
+  <update id="updateDeptStatus">
+    UPDATE js02_dept
+    <set>
+      <if test="deptId != null and deptId != ''">
+        status = ${0}
+      </if>
+    </set>
+    WHERE dept_id = #{deptId}
+  </update>
+
+  <insert id="insertDeptOne" parameterType="com.wh.js02.entity.Js02Dept">
+    insert into js02_dept (dept_id, dept_code, dept_name,
+    dept_grade, dept_parent_id, status,
+    created_by, created_time, updated_by,
+    updated_time)
+    values (#{deptId,jdbcType=INTEGER}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR},
+    #{deptGrade,jdbcType=INTEGER}, #{deptParentId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR},
+    #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+
+
+
+  
+</mapper>

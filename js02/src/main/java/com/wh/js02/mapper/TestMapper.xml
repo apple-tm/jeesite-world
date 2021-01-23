@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.TestMapper">
+    <insert id="testInsertOne" parameterType="com.wh.js02.entity.Test">
+        insert into `test_table`
+        (`test_name`,`status`,`created_time`,`created_by`,`updated_time`,`updated_by`)
+        VALUES (#{testName}, #{status}, #{createdTime}, #{createdBy}, #{updatedTime}, #{updatedBy})
+    </insert>
+
+
+</mapper>

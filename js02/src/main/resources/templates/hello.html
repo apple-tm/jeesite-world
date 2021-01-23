@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>springboot-thymeleaf demo</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $("#btn_login").click(function () {
+                $.ajax({
+                    url:"/loginPage",
+                    type:"get",
+                    async:false,
+                    success:function(data){
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+<p th:text="'hello, ' + ${name} + '!'" />
+
+<a href="/loginPage">login</a>
+<button id="btn_login">登录</button>
+</body>
+</html>

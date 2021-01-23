@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02UserMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_dept_id" jdbcType="INTEGER" property="userDeptId" />
+    <result column="user_role_id" jdbcType="INTEGER" property="userRoleId" />
+    <result column="user_phone" jdbcType="INTEGER" property="userPhone" />
+    <result column="user_gender" jdbcType="INTEGER" property="userGender" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+
+    <association property="js02Role" javaType="com.wh.js02.entity.Js02Role">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_grade" jdbcType="VARCHAR" property="roleGrade" />
+
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+
+
+    <collection property="js02MenuList" javaType="java.util.ArrayList" ofType="com.wh.js02.entity.Js02Menu">
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+    </collection>
+  </association>
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_code, user_name, user_password, user_dept_id, user_role_id, user_phone, 
+    user_gender, user_email, status, created_by, created_time, updated_by, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02User">
+    insert into js02_user (user_id, user_code, user_name, 
+      user_password, user_dept_id, user_role_id, 
+      user_phone, user_gender, user_email, 
+      status, created_by, created_time, 
+      updated_by, updated_time)
+    values (#{userId,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userDeptId,jdbcType=INTEGER}, #{userRoleId,jdbcType=INTEGER}, 
+      #{userPhone,jdbcType=INTEGER}, #{userGender,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02User">
+    insert into js02_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userCode != null">
+        user_code,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userDeptId != null">
+        user_dept_id,
+      </if>
+      <if test="userRoleId != null">
+        user_role_id,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userGender != null">
+        user_gender,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userDeptId != null">
+        #{userDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleId != null">
+        #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=INTEGER},
+      </if>
+      <if test="userGender != null">
+        #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02User">
+    update js02_user
+    <set>
+      <if test="userCode != null and userCode != ''">
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null and userName != ''">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null and userPassword != ''">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userDeptId != null and userDeptId != ''">
+        user_dept_id = #{userDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleId != null and userRoleId != ''">
+        user_role_id = #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userPhone != null and userPhone != ''">
+        user_phone = #{userPhone,jdbcType=INTEGER},
+      </if>
+      <if test="userGender != null and userGender != ''">
+        user_gender = #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null and userEmail != ''">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null and createdBy != ''">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null and createdTime != ''">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null and updatedBy != ''">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null and updatedTime != ''">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02User">
+    update js02_user
+    set user_code = #{userCode,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_dept_id = #{userDeptId,jdbcType=INTEGER},
+      user_role_id = #{userRoleId,jdbcType=INTEGER},
+      user_phone = #{userPhone,jdbcType=INTEGER},
+      user_gender = #{userGender,jdbcType=INTEGER},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!--分页查询所有用户-->
+  <select id="selectAllUser" resultType="List" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT * FROM js02_user WHERE status = ${1} limit #{offset},#{pageSize}
+  </select>
+
+  <!--查询总的用户数-->
+  <select id="totolSize" resultType="java.lang.Integer">
+    SELECT COUNT(*) from js02_user WHERE status = ${1}
+  </select>
+
+  <!--新增用户-->
+  <insert id="insertUserOne" parameterType="com.wh.js02.entity.Js02User">
+    insert into js02_user (user_id, user_code, user_name,
+      user_password, user_dept_id, user_role_id,
+      user_phone, user_gender, user_email,
+      status, created_by, created_time,
+      updated_by, updated_time)
+    values (#{userId,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+      #{userPassword,jdbcType=VARCHAR}, #{userDeptId,jdbcType=INTEGER}, #{userRoleId,jdbcType=INTEGER},
+      #{userPhone,jdbcType=INTEGER}, #{userGender,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--模糊查询-->
+  <select id="fuzzyQuery" parameterType="java.lang.String" resultType="List" resultMap="BaseResultMap">
+    SELECT * FROM js02_user
+    <where>
+      status = ${1} and
+      <if test="searchKey != null">
+        `user_code` LIKE concat('%',#{searchKey},'%')
+        OR `user_name` LIKE concat('%',#{searchKey},'%')
+        OR `user_phone` LIKE concat('%',#{searchKey},'%')
+        OR `user_email` LIKE concat('%',#{searchKey},'%')
+
+      </if>
+    </where>
+    limit #{offset},#{pageSize}
+  </select>
+  <!--模糊查询总的用户数量-->
+  <select id="totolSizeFuzzy" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT count(*) FROM js02_user
+    <where>
+
+      <if test="searchKey != null">
+        `user_code` LIKE concat('%',#{searchKey},'%')
+        OR `user_name` LIKE concat('%',#{searchKey},'%')
+        OR `user_phone` LIKE concat('%',#{searchKey},'%')
+        OR `user_email` LIKE concat('%',#{searchKey},'%')
+
+      </if>
+    </where>
+  </select>
+
+  <!--修改用户状态-->
+  <update id="updateUserStatus">
+    UPDATE js02_user
+    <set>
+      <if test="userId != null and userId != ''">
+        status = ${0}
+      </if>
+    </set>
+    WHERE user_id = #{userId}
+  </update>
+
+  <select id="login" parameterType="com.wh.js02.entity.Js02User" resultMap="BaseResultMap">
+      SELECT
+          ju.user_id,ju.user_code,ju.user_name,ju.user_dept_id,ju.user_role_id,
+          ju.user_phone,ju.user_gender,ju.user_email,
+          jr.role_id,jr.role_code,jr.role_name,jr.role_grade,
+          jm.menu_id,jm.menu_code,jm.menu_name,jm.menu_url
+      FROM
+          js02_user ju
+      LEFT JOIN js02_role jr ON ju.user_id = jr.role_id
+      LEFT JOIN js02_role_menu jrm ON jr.role_id = jrm.role_id
+      LEFT JOIN js02_menu jm ON jrm.menu_id = jm.menu_id
+     WHERE user_phone = #{userPhone} and user_password = #{userPassword}
+  </select>
+
+  <select id="selectUserAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM
+      `js02_user`  ju
+      LEFT JOIN
+      `js02_role` jr
+      ON
+      jr.role_id = ju.user_role_id
+      LEFT JOIN
+      `js02_role_menu` jrm
+      ON
+      jr.role_id = jrm.role_id
+      LEFT JOIN
+      js02_menu jm
+      ON jrm.menu_id = jm.menu_id
+
+      WHERE
+	`user_phone` = #{userPhone}
+
+  </select>
+
+</mapper>

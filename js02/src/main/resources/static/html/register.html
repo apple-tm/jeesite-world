@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $("#btn_register").click(function () {
+
+                var user = {
+                    phoneNumber:$("#register_phoneNumber").val(),
+                    userPassword:$("#register_password").val(),
+                    userRePassword: $("#register_rePassword").val()
+                };
+                $.ajax({
+                    url:"/register",
+                    type:"post",
+                    contentType:"application/json",
+                    data:JSON.stringify(user),
+                    dataType:"json",
+                    async:true,
+                    success:function(data){
+                        if(data.respCode == "0"){
+                            alert("注册成功");
+                        }else {
+                            alert(data.respMsg);
+                        }
+                    }
+                });
+            });
+
+
+            $("#btn_login").click(function () {
+                $.ajax({
+                    url:"/loginPage",
+                    type:"get",
+                    async:false,
+                    success:function(data){
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<input id="register_phoneNumber" type="text" placeholder="请输入手机号码"/>
+<input id="register_password" type="password" placeholder="请输入密码">
+<input id="register_rePassword" type="password" placeholder="请确认密码">
+
+<button id="btn_register">注册</button>
+<button id="btn_login">登录</button>
+
+</body>
+</html>

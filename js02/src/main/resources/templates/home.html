@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<title>首页</title>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script  src="js/home.js"></script>
+
+
+    <script  src="js/user.js"></script>
+
+    <script src="js/dept.js"></script>
+
+    <script  src="js/role.js"></script>
+
+    <script src="js/menu.js"></script>
+
+
+
+</head>
+
+<body>
+
+<!--左边-->
+<div id="nav">
+    <!--更加返回的List<Js02Menu的>-->
+    <ul id="menuUl">
+        <!--<li id="userManager">用户管理</li>
+        <li id="dept_manager">机构管理</li>
+        <li id="role_manager">角色管理</li>
+        <li id="menu_manager">菜单管理</li>-->
+
+
+
+    </ul>
+</div>
+
+
+<!--右边-->
+<div>
+    <!--user搜索框-->
+    <div class="search" id="userSearch">
+        <button  id="add_user_btn"><a>新增</a></button>&nbsp
+        <button><a>导入</a></button>&nbsp
+        <input type="text" placeholder="请输入用户关键字" id="searchKey" />&nbsp
+        <button id="searchClick"><i>搜索</i></button>
+    </div>
+
+    <!--dept搜索框-->
+    <div class="search" id="deptSearch">
+        <button  id="add_dept_btn"><a>新增</a></button>&nbsp
+        <button><a>导入</a></button>&nbsp
+        <input type="text" placeholder="请输入机构关键字" id="searchDeptKey" />&nbsp
+        <button id="searchDeptClick"><i>搜索</i></button>
+    </div>
+
+    <!--role搜索框-->
+    <div class="search" id="roleSearch">
+        <button  id="add_role_btn"><a>新增</a></button>&nbsp
+        <button><a>导入</a></button>&nbsp
+        <input type="text" placeholder="请输入角色关键字" id="searchRoleKey" />&nbsp
+        <button id="searchRoleClick"><i>搜索</i></button>
+    </div>
+
+    <!--menu搜索框-->
+    <div class="search" id="menuSearch">
+        <button  id="add_menu_btn"><a>新增</a></button>&nbsp
+        <button><a>导入</a></button>&nbsp
+        <input type="text" placeholder="请输入菜单关键字" id="searchMenuKey" />&nbsp
+        <button id="searchMenuClick"><i>搜索</i></button>
+    </div>
+
+    <!--内容-->
+    <div id="section">
+        <!--用户表-->
+        <table id="userTable" class="gridtable">
+            <thead>
+            <tr id="userTableHeader" class="userHeader">
+                <td>用户id</td>
+                <td>用户名称</td>
+                <td>用户code</td>
+                <td>性别</td>
+                <td>手机号码</td>
+                <td>所属角色</td>
+                <td>所属机构</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td><select id="pageSize">
+                    <option value=5 selected="selected">每页5条</option>
+                    <option value=10>每页10条</option>
+                    <option value=15>每页15条</option>
+                    <option value=25>每页15条</option>
+                </select></td>
+                <td>上一页</td>
+                <td colspan="3" id="curPageNo">1 2 3</td>
+                <td>下一页</td>
+                <td>所属机构</td>
+                <td>操作</td>
+            </tr>
+            </tfoot>
+            <tbody id="userTableBody">
+
+            </tbody>
+        </table>
+
+
+        <!--机构表-->
+        <table id="deptTable">
+            <thead>
+            <tr id="deptTableHeader" class="deptHeader">
+                <td>机构id</td>
+                <td>机构code</td>
+                <td>机构名称</td>
+                <td>机构级别</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td><select id="dept_pageSize">
+                    <option value=5 selected="selected">每页5条</option>
+                    <option value=10>每页10条</option>
+                    <option value=15>每页15条</option>
+                    <option value=25>每页15条</option>
+                </select></td>
+                <td>上一页</td>
+                <td id="dept_curPageNo"></td>
+                <td>下一页</td>
+                <td>操作</td>
+
+
+            </tr>
+            </tfoot>
+            <tbody id="deptTableBody">
+
+            </tbody>
+        </table>
+
+        <!--角色表-->
+        <table id="roleTable">
+            <thead>
+            <tr id="roleTableHeader" class="roleHeader">
+                <td>角色id</td>
+                <td>角色code</td>
+                <td>角色名称</td>
+                <td>角色级别</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td><select id="role_pageSize">
+                    <option value=5 selected="selected">每页5条</option>
+                    <option value=10>每页10条</option>
+                    <option value=15>每页15条</option>
+                    <option value=25>每页15条</option>
+                </select></td>
+                <td>上一页</td>
+                <td id="role_curPageNo"></td>
+                <td>下一页</td>
+                <td>操作</td>
+
+            </tr>
+            </tfoot>
+            <tbody id="roleTableBody">
+
+            </tbody>
+        </table>
+
+        <!--菜单表-->
+        <table id="menuTable">
+            <thead>
+            <tr id="menuTableHeader" class="menuHeader">
+                <td>菜单id</td>
+                <td>菜单code</td>
+                <td>菜单名称</td>
+                <td>菜单url</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td><select id="menu_pageSize">
+                    <option value=5 selected="selected">每页5条</option>
+                    <option value=10>每页10条</option>
+                    <option value=15>每页15条</option>
+                    <option value=25>每页15条</option>
+                </select></td>
+                <td>上一页</td>
+                <td id="menu_curPageNo"></td>
+                <td>下一页</td>
+                <td>操作</td>
+            </tr>
+            </tfoot>
+            <tbody id="menuTableBody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--新增用户弹出框-->
+<div class="Tips" id="addUserTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>新增用户</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="userName" type="text" placeholder="请输入姓名"/>
+            <input id="userCode" type="text" placeholder="请输入code"/>
+            <input id="userPhone" type="text" placeholder="请输入手机号"/>
+            <input id="userEmail" type="text" placeholder="请输入邮箱"/>
+            <input id="userPassword" type="text" placeholder="请输入密码"/>
+            <input id="reUserPassword" type="text" placeholder="请再次确认密码"/><br/>
+            <input id="createdBy" type="text" placeholder="用户创建人姓名"/>
+            <input id="updatedBy" type="text" placeholder="用户更改人姓名"/><br /><br />
+
+
+
+            <span id="userGender">
+                <input type="radio" name="userSex" value=1 checked>男
+                <input type="radio" name="userSex" value=0>女
+            </span>
+
+            <span id="status">
+                <input type="radio" name="status" value=1 checked>正常
+                <input type="radio" name="status" value=0>禁用
+            </span>&nbsp
+
+            <select id="userDeptId">
+                <option value=1 name="userDeptId">全系统</option>
+                <option value=2 name="userDeptId" selected>四川</option>
+                <option value=7 name="userDeptId">成都</option>
+                <option value=3 name="userDeptId" >南充</option>
+                <option value=4 name="userDeptId" >仪陇</option>
+                <option value=5 name="userDeptId" >日兴</option>
+                <option value=6 name="userDeptId" >枣儿</option>
+            </select><br /><br />
+
+            <div id="userRoleId">
+            <input type="radio" name="userRoleId" checked value=1>超级管理员
+            <input type="radio" name="userRoleId" value=2>管理员
+            <input type="radio" name="userRoleId" value=3>普通用户
+            </div>
+            <br/>
+
+            <a href="#" id="yes">确定</a> <a href="#" id="no">取消</a>
+        </div>
+    </div>
+</div>
+<!--修改用户弹出框-->
+<div class="Tips" id="updateUserTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>修改用户</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="update_userName" type="text" placeholder="修改姓名"/>
+            <input id="update_userCode" type="text" placeholder="修改code"/>
+            <input id="update_userPhone" type="text" placeholder="修改手机号"/>
+            <input id="update_userEmail" type="text" placeholder="修改邮箱"/>
+            <input id="update_userPassword" type="text" placeholder="修改密码"/>
+            <input id="update_reUserPassword" type="text" placeholder="确认修改密码"/><br/>
+            <input id="update_createdBy" type="text" placeholder="修改创建人姓名"/>
+            <input id="update_updatedBy" type="text" placeholder="更改人姓名"/><br /><br />
+
+
+
+            <span id="update_userGender">
+                <input type="radio" name="userSex" value=1 checked>男
+                <input type="radio" name="userSex" value=0>女
+            </span>
+
+            <span id="update_status">
+                <input type="radio" name="status" value=1 checked>正常
+                <input type="radio" name="status" value=0>禁用
+            </span>&nbsp
+
+            <select id="update_userDeptId">
+                <option value=1 name="userDeptId">全系统</option>
+                <option value=2 name="userDeptId">四川</option>
+                <option value=7 name="userDeptId" selected>成都</option>
+                <option value=3 name="userDeptId" >南充</option>
+                <option value=4 name="userDeptId" >仪陇</option>
+                <option value=5 name="userDeptId" >日兴</option>
+                <option value=6 name="userDeptId" >枣儿</option>
+            </select><br /><br />
+
+            <div id="update_userRoleId">
+                <input type="radio" name="userRoleId" value=1>超级管理员
+                <input type="radio" name="userRoleId" value=2>管理员
+                <input type="radio" name="userRoleId" value=3 checked>普通用户
+            </div>
+            <br/>
+
+            <a href="#" id="update_yes">确定</a> <a href="#" id="update_no">取消</a>
+        </div>
+    </div>
+</div>
+<!--删除用户弹出框-->
+<div class="Tips" id="deleteUserTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>删除用户</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+            <p>确定删除该用户？</p>
+            <a href="#" id="delete_yes">确定</a> <a href="#" id="delete_no">取消</a>
+        </div>
+    </div>
+</div>
+
+
+<!--新增机构弹出框-->
+<div class="Tips" id="addDeptTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>新增机构</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="addDeptName" type="text" placeholder="请输入机构名称"/>
+            <input id="addDeptCode" type="text" placeholder="请输入code"/>
+
+            <select id="addDeptParent">
+                <option value=0 name="deptParent">无</option>
+                <option value=1 name="deptParent" selected>大中国</option>
+                <option value=2 name="deptParent">四川</option>
+                <option value=3 name="deptParent" >南充</option>
+                <option value=4 name="deptParent" >仪陇</option>
+                <option value=5 name="deptParent" >日兴</option>
+                <option value=7 name="deptParent" >成都</option>
+            </select><br /><br />
+
+            <select id="addDeptGrade">
+                <option value=0 name="deptGrade">0</option>
+                <option value=1 name="deptGrade" selected>1</option>
+                <option value=3 name="deptGrade">3</option>
+                <option value=4 name="deptGrade" >4</option>
+                <option value=5 name="deptGrade" >5</option>
+                <option value=6 name="deptGrade" >6</option>
+            </select><br /><br />
+
+            <input id="addDept_createdBy" type="text" placeholder="创建人姓名"/>
+            <input id="addDept_updatedBy" type="text" placeholder="修改人姓名"/><br /><br />
+
+            <a href="#" id="addDept_yes">确定</a> <a href="#" id="addDept_no">取消</a>
+        </div>
+    </div>
+</div>
+<!--修改机构弹出框-->
+<div class="Tips" id="updateDeptTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>修改机构</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="update_deptName" type="text" placeholder="修改机构名称"/>
+            <input id="update_deptCode" type="text" placeholder="修改机构code"/>
+
+            <input id="update_deptupdatedBy" type="text" placeholder="修改人姓名"/><br /><br />
+            <select id="update_deptGrade">
+                <option value=0 name="deptGrade">0</option>
+                <option value=1 name="deptGrade" selected>1</option>
+                <option value=3 name="deptGrade">3</option>
+                <option value=4 name="deptGrade" >4</option>
+                <option value=5 name="deptGrade" >5</option>
+                <option value=6 name="deptGrade" >6</option>
+            </select><br /><br />
+
+            <a href="#" id="updateDept_yes">确定</a> <a href="#" id="updateDept_no">取消</a>
+        </div>
+    </div>
+</div>
+<!--删除机构弹出框-->
+<div class="Tips" id="deleteDeptTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>删除机构</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+            <p>确定删除该机构？</p>
+            <a href="#" id="deleteDept_yes">确定</a> <a href="#" id="deleteDept_no">取消</a>
+        </div>
+    </div>
+</div>
+
+
+<!--新增角色弹出框-->
+<div class="Tips" id="addRoleTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>新增角色</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="addRoleName" type="text" placeholder="请输入角色名称"/>
+            <input id="addRoleCode" type="text" placeholder="请输入code"/>
+
+            <input id="addRole_createdBy" type="text" placeholder="创建人姓名"/>
+            <input id="addRole_updatedBy" type="text" placeholder="修改人姓名"/><br /><br />
+            <select id="addRoleGrade">
+                <option value=0 name="deptGrade">0</option>
+                <option value=1 name="deptGrade" selected>1</option>
+                <option value=2 name="deptGrade">2</option>
+                <option value=3 name="deptGrade" >3</option>
+                <option value=4 name="deptGrade" >4</option>
+                <option value=5 name="deptGrade" >5</option>
+            </select><br /><br />
+            <div id="menuForRole">
+
+            </div>
+            <a href="#" id="addRole_yes">确定</a> <a href="#" id="addRole_no">取消</a>
+
+        </div>
+    </div>
+</div>
+<!--修改角色弹出框-->
+<div class="Tips" id="updateRoleTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>修改角色</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="update_roleName" type="text" placeholder="修改角色名称"/>
+            <input id="update_roleCode" type="text" placeholder="修改角色code"/>
+            <input id="update_roleupdatedBy" type="text" placeholder="修改人姓名"/><br /><br />
+
+            <select id="update_roleGrade">
+                <option value=0 name="roleGrade">super</option>
+                <option value=1 name="roleGrade" selected>admin</option>
+                <option value=2 name="roleGrade">user</option>
+            </select><br /><br />
+            <div id="update_menuForRole">
+
+            </div>
+
+            <a href="#" id="updateRole_yes">确定</a> <a href="#" id="updateRole_no">取消</a>
+        </div>
+    </div>
+</div>
+<!--删除角色弹出框-->
+<div class="Tips" id="deleteRoleTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>删除角色</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+            <p>确定删除该角色？</p>
+            <a href="#" id="deleteRole_yes">确定</a> <a href="#" id="deleteRole_no">取消</a>
+        </div>
+    </div>
+</div>
+
+
+<!--新增菜单弹出框-->
+<div class="Tips" id="addMenuTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>新增菜单</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="addMenuName" type="text" placeholder="请输入菜单名称"/>
+            <input id="addMenuCode" type="text" placeholder="请输入code"/>
+            <input id="addMenuUrl" type="text" placeholder="请输入url"/>
+
+            <input id="addMenu_createdBy" type="text" placeholder="创建人姓名"/>
+            <input id="addMenu_updatedBy" type="text" placeholder="修改人姓名"/><br /><br />
+            <a href="#" id="addMenu_yes">确定</a> <a href="#" id="addMenu_no">取消</a>
+
+        </div>
+    </div>
+</div>
+<!--修改菜单弹出框-->
+<div class="Tips" id="updateMenuTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>修改菜单</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+
+            <input id="update_menuName" type="text" placeholder="修改菜单code"/>
+            <input id="update_menuCode" type="text" placeholder="修改菜单名称"/>
+            <input id="update_menuUrl" type="text" placeholder="修改菜单url"/>
+            <input id="update_menuupdatedBy" type="text" placeholder="更改人姓名"/><br /><br />
+
+            <a href="#" id="updateMenu_yes">确定</a> <a href="#" id="updateMenu_no">取消</a>
+        </div>
+    </div>
+</div>
+<!--删除菜单弹出框-->
+<div class="Tips" id="deleteMenuTable">
+    <div class="TipsFrame"><!--弹出框外框-->
+        <h2>删除菜单</h2>
+        <div class="TipsMain"><!--弹出框内部-->
+            <p>确定删除该菜单？</p>
+            <a href="#" id="deleteMenu_yes">确定</a> <a href="#" id="deleteMenu_no">取消</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

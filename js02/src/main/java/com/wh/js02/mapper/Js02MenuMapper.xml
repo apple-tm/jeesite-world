@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02MenuMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Menu">
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, menu_code, menu_name, menu_url, status, created_by, created_time, updated_by, 
+    updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertMenuOne" parameterType="com.wh.js02.entity.Js02Menu">
+    insert into js02_menu (menu_id, menu_code, menu_name, 
+      menu_url, status, created_by, 
+      created_time, updated_by, updated_time
+      )
+    values (#{menuId,jdbcType=INTEGER}, #{menuCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Menu">
+    insert into js02_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuCode != null">
+        menu_code,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="menuUrl != null">
+        menu_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuCode != null">
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Menu">
+    update js02_menu
+    <set>
+      <if test="menuCode != null and menuCode != ''">
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null and menuName != ''">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null and menuUrl != ''">
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null and createdBy != ''">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null and createdTime != ''">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null and updatedBy != ''">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null and updatedTime != ''">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Menu">
+    update js02_menu
+    set menu_code = #{menuCode,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="menuTotolSize" resultType="java.lang.Integer">
+    SELECT count(0) FROM js02_menu WHERE status = ${1}
+  </select>
+  <!--分页查询-->
+  <select id="selectAllMenu" resultMap="BaseResultMap" resultType="List">
+    select
+    <include refid="Base_Column_List" />
+    from js02_menu WHERE status = ${1} limit #{offSet},#{pageSize}
+  </select>
+
+  <update id="updateMenuStatus">
+    UPDATE js02_menu
+    <set>
+      <if test="menuId != null and menuId != ''">
+        status = ${0}
+      </if>
+    </set>
+    WHERE menu_id = #{menuId}
+  </update>
+  
+  <select id="selectUserMenu" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT jrm.menu_id,jrm.role_id FROM js02_role jr
+LEFT JOIN js02_role_menu jrm
+ON jr.role_id = jrm.role_id
+WHERE jr.role_id = #{roleId}
+  </select>
+
+
+</mapper>

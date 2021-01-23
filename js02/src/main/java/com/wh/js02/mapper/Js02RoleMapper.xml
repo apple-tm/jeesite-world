@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02RoleMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Role">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_grade" jdbcType="INTEGER" property="roleGrade" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, role_code, role_name, role_grade, status, created_by, created_time, updated_by, 
+    updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Role">
+    insert into js02_role (role_id, role_code, role_name, 
+      role_grade, status, created_by, 
+      created_time, updated_by, updated_time
+      )
+    values (#{roleId,jdbcType=INTEGER}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{roleGrade,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Role">
+    insert into js02_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="roleCode != null">
+        role_code,
+      </if>
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="roleGrade != null">
+        role_grade,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleCode != null">
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleGrade != null">
+        #{roleGrade,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Role">
+    update js02_role
+    <set>
+      <if test="roleCode != null and roleCode != ''">
+        role_code = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null and roleName != ''">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleGrade != null and roleGrade != ''">
+        role_grade = #{roleGrade,jdbcType=INTEGER},
+      </if>
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null and createdBy != ''">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null and createdTime != ''">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null and updatedBy != ''">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null and updatedTime != ''">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Role">
+    update js02_role
+    set role_code = #{roleCode,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      role_grade = #{roleGrade,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectRole" resultType="List" resultMap="BaseResultMap">
+    SELECT * FROM js02_role WHERE role_id = #{roleId}
+  </select>
+  <select id="selectAll" resultType="List" resultMap="BaseResultMap">
+    select * from js02_role;
+  </select>
+
+
+  <!--查询角色总记录条数-->
+  <select id="roleTotolSize" resultType="java.lang.Integer">
+    SELECT count(0) FROM js02_role WHERE status = ${1}
+  </select>
+  <!--分页查询-->
+  <select id="selectAllRole" resultMap="BaseResultMap" resultType="List">
+    select
+    <include refid="Base_Column_List" />
+    from js02_role WHERE status = ${1} limit #{offSet},#{pageSize}
+  </select>
+
+
+  <update id="updateRoleStatus">
+    UPDATE js02_role
+    <set>
+      <if test="roleId != null and roleId != ''">
+        status = ${0}
+      </if>
+    </set>
+    WHERE role_id = #{roleId}
+  </update>
+
+
+  <insert id="insertRoleOne" useGeneratedKeys="true" keyProperty="roleId"  keyColumn="role_id"  parameterType="com.wh.js02.entity.Js02Role">
+    insert into js02_role (role_id, role_code, role_name,
+    role_grade, status, created_by,
+    created_time, updated_by, updated_time
+    )
+    values (#{roleId,jdbcType=INTEGER}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},
+    #{roleGrade,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR},
+    #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <!--<insert id="insertRoleAndMenu" parameterType="java.lang.Integer">
+    INSERT INTO js02_role_menu(role_id,menu_id)
+    VALUES(
+    #{roleId},
+    <foreach collection="list" item="js02MenuId" index="index" separator=",">
+      (#{registerUser.orderId},
+      )
+    </foreach>
+    )
+  </insert>-->
+  
+  <insert id="insertRoleAndMenu">
+    INSERT INTO js02_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
+  </insert>
+  
+  <delete id="deleteByRoleId">
+    DELETE FROM js02_role_menu WHERE role_id = #{roleId}
+  </delete>
+
+
+</mapper>

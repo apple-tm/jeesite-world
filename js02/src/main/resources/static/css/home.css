@@ -1,0 +1,166 @@
+#nav {
+
+    line-height:30px;
+    background-color:#eeeeee;
+    height:auto;
+    width:150px;
+    float:left;
+    padding:5px;
+}
+li{
+    width: 60%;
+}
+li:hover {
+    background-color: #cccccc;
+}
+
+#section {
+    width: auto;
+    float:left;
+    padding:5px;
+    z-index: 1;
+}
+
+table {
+    width: 90%;
+    background: #ccc;
+    margin: 0px 0px;
+    border-collapse: collapse;/*border-collapse:collapse合并内外边距(去除表格单元格默认的2个像素内外边距*/
+}
+th,td {
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border: 1px solid #5e8809;
+    width: 130px;
+}
+th {
+    background: #eee;
+    font-weight: normal;
+}
+tr {
+    background: #fff;
+}
+tr:hover {
+    background: #99cc33;
+}
+td a {
+    color: #06f;
+    text-decoration: none;
+}
+td a:hover {
+    color: #06f;
+    text-decoration: underline;
+}
+
+
+/*模糊查询框*/
+.search{
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+}
+.search input{
+    float: left;
+    flex: 4;
+    height: 30px;
+    outline: none;
+    border: 1px solid #060;
+    box-sizing: border-box;
+    padding-left: 10px;
+    width: 80%;
+}
+.search button{
+    float: right;
+    flex: 1;
+    height: 30px;
+    background-color: #060;
+    color: white;
+    border-style: none;
+    outline: none;
+    width: 20%;
+    border-radius: 10px;
+}
+.search button i{
+    font-style: normal;
+}
+.search button:hover{
+    font-size: 16px;
+}
+/** {*/
+/*margin: 0;*/
+/*padding: 0;*/
+/*}*/
+
+
+
+/*提示框基本布局样式*/
+.Tips {
+    width: 400px;
+    height: 190px;
+    position: absolute;
+    top: 100px;
+    left: 500px;
+    background: #fff;
+    border-radius: 4px;
+}
+
+/*TipsFrame是提示框外边框样式*/
+.TipsFrame {
+    margin: 4px;
+    border: 1px solid #ccc;
+}
+
+.TipsFrame h2 {
+    padding-left: 8px;
+    font-size: 14px;
+    line-height: 30px;
+    margin: 4px 8px;
+    border-bottom: 1px solid #99cc33;
+}
+
+/*TipsMain是提示框里面内容样式*/
+.TipsMain {
+    margin-top: 38px;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 4px;
+}
+
+.TipsMain a {
+
+    padding: 0 20px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    border: 1px solid #5e8809;
+    margin-top: 10px;
+    background: #99cc33;
+    color: #fff;
+    text-decoration: none;
+}
+
+.TipsMain a:hover,.TipsMain a:active {
+    background: #679016;
+}
+
+.updateAndDelete{
+
+    margin: 0 auto;
+    display: flex;
+}
+.updateAndDelete button{
+    float: right;
+    flex: 1;
+    height: auto;
+    background-color: #060;
+    color: white;
+    border-style: none;
+    outline: none;
+    width: auto;
+}
+.updateAndDelete button:hover{
+    font-size: 16px;
+}
+

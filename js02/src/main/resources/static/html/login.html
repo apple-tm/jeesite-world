@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $("#btn_login").click(function () {
+
+                var user = {
+                    phoneNumber:$("#login_phoneNumber").val(),
+                    userPassword:$("#login_password").val(),
+
+                };
+                $.ajax({
+                    url:"/login",
+                    type:"post",
+                    contentType:"application/json",
+                    data:JSON.stringify(user),
+                    dataType:"json",
+                    async:true,
+                    success:function(data){
+                        console.log(data);
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+<input id="login_phoneNumber" type="text" placeholder="输入手机号码"/>
+<input id="login_password" type="password" placeholder="请输入密码">
+
+<button id="btn_login">登录</button>
+
+</body>
+</html>
