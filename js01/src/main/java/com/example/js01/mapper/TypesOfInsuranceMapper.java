@@ -9,4 +9,5 @@ import java.util.List;
 public interface TypesOfInsuranceMapper {
     Integer addInsurance(TypesOfInsurance insurance);
     List<TypesOfInsurance> selectByIn(List<Integer> idList);
+    List<TypesOfInsurance> queryInsuranceType(Integer orderId);
 }

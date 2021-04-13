@@ -5,6 +5,9 @@ import com.wh.js02.entity.ResultVo;
 import com.wh.js02.req.PageDTO;
 import com.wh.js02.service.Js02RoleService;
 import com.wh.js02.vo.PageVo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,8 @@ public class Js02RoleController {
 
     @Autowired
     private Js02RoleService js02RoleService;
+
+    private final static Logger log = LoggerFactory.getLogger(Js02RoleController.class);
 
     @PostMapping("/roleList")
     public @ResponseBody
@@ -37,6 +42,8 @@ public class Js02RoleController {
             }
         }catch (Exception e){
             resultVo.fail("查询角色失败");
+//            e.printStackTrace();
+            log.error("查询角色失败", e);
         }finally {
 
         }

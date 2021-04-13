@@ -1,5 +1,6 @@
 package com.example.js01.controller;
 
+import com.example.js01.entity.TheInsured;
 import com.example.js01.entity.TypesOfInsurance;
 import com.example.js01.service.TypesOfInsuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,14 @@ public class TypesOfInsuranceController {
 
         return insuranceService.addInsurance(insurance);
     }
+
+//    @ResponseBody
+//    @RequestMapping(value ="/queryInsuranceType")
+//    public String queryInsuranceType(@RequestBody TheInsured theInsured){
+//
+//        return insuranceService.queryInsuranceType(theInsured);
+//    }
+
 
 
 

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Goods">
+    <id column="js02_goods_id" jdbcType="INTEGER" property="js02GoodsId" />
+    <result column="js02_goods_name" jdbcType="VARCHAR" property="js02GoodsName" />
+    <result column="js02_goods_price" jdbcType="BIGINT" property="js02GoodsPrice" />
+    <result column="js02_goods_type" jdbcType="VARCHAR" property="js02GoodsType" />
+    <result column="js02_goods_sum" jdbcType="INTEGER" property="js02GoodsSum" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="update_time" jdbcType="DATE" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    js02_goods_id, js02_goods_name, js02_goods_price, js02_goods_type, js02_goods_sum, 
+    create_time, create_by, status, update_time, update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_goods
+    where js02_goods_id = #{js02GoodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_goods
+    where js02_goods_id = #{js02GoodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Goods">
+    insert into js02_goods (js02_goods_id, js02_goods_name, js02_goods_price, 
+      js02_goods_type, js02_goods_sum, create_time, 
+      create_by, status, update_time, 
+      update_by)
+    values (#{js02GoodsId,jdbcType=INTEGER}, #{js02GoodsName,jdbcType=VARCHAR}, #{js02GoodsPrice,jdbcType=BIGINT}, 
+      #{js02GoodsType,jdbcType=VARCHAR}, #{js02GoodsSum,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, 
+      #{createBy,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=DATE}, 
+      #{updateBy,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Goods">
+    insert into js02_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="js02GoodsId != null">
+        js02_goods_id,
+      </if>
+      <if test="js02GoodsName != null">
+        js02_goods_name,
+      </if>
+      <if test="js02GoodsPrice != null">
+        js02_goods_price,
+      </if>
+      <if test="js02GoodsType != null">
+        js02_goods_type,
+      </if>
+      <if test="js02GoodsSum != null">
+        js02_goods_sum,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="js02GoodsId != null">
+        #{js02GoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="js02GoodsName != null">
+        #{js02GoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="js02GoodsPrice != null">
+        #{js02GoodsPrice,jdbcType=BIGINT},
+      </if>
+      <if test="js02GoodsType != null">
+        #{js02GoodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="js02GoodsSum != null">
+        #{js02GoodsSum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Goods">
+    update js02_goods
+    <set>
+      <if test="js02GoodsName != null">
+        js02_goods_name = #{js02GoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="js02GoodsPrice != null">
+        js02_goods_price = #{js02GoodsPrice,jdbcType=BIGINT},
+      </if>
+      <if test="js02GoodsType != null">
+        js02_goods_type = #{js02GoodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="js02GoodsSum != null">
+        js02_goods_sum = #{js02GoodsSum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where js02_goods_id = #{js02GoodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Goods">
+    update js02_goods
+    set js02_goods_name = #{js02GoodsName,jdbcType=VARCHAR},
+      js02_goods_price = #{js02GoodsPrice,jdbcType=BIGINT},
+      js02_goods_type = #{js02GoodsType,jdbcType=VARCHAR},
+      js02_goods_sum = #{js02GoodsSum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=DATE},
+      update_by = #{updateBy,jdbcType=INTEGER}
+    where js02_goods_id = #{js02GoodsId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectGoods" parameterType="java.lang.String" resultType="Integer">
+    select count(*) FROM js02_goods WHERE js02_goods_name = #{goodsName}
+  </select>
+
+  <update id="addGoodsSum" parameterType="com.wh.js02.entity.Js02Goods">
+    update js02_goods set js02_goods_sum = js02_goods_sum + #{js02GoodsSum} where js02_goods_name = #{js02GoodsName}
+  </update>
+
+  <insert id="batchInsertGoods" parameterType="com.wh.js02.entity.Js02Goods">
+    insert into js02_goods (js02_goods_name, js02_goods_price,
+      js02_goods_type, js02_goods_sum)
+      VALUES
+      <foreach collection="list" index="index" separator="," item="item">
+        (
+        #{item.js02GoodsName},#{item.js02GoodsPrice},#{item.js02GoodsType},#{item.js02GoodsSum}
+        )
+      </foreach>
+  </insert>
+  
+  <update id="goodsSumAlart">
+    update js02_goods set js02_alarm_flag = 1 where js02_goods_sum &lt; js02_alarm_num
+  </update>
+
+  <update id="goodsSumAlart1">
+    update js02_goods set js02_alarm_flag = 0 where js02_goods_sum &gt; js02_alarm_num
+  </update>
+
+</mapper>

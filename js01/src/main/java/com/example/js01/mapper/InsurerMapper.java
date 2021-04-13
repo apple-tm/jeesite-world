@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface InsurerMapper {
     Integer addInsurer(Insurer insurer);
+    Insurer queryInsurer(Integer insurerId);
 }

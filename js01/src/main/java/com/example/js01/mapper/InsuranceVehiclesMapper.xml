@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.js01.mapper.InsuranceVehiclesMapper">
-    <!--添加保险类型-->
+
+    <resultMap id="BaseResultMap" type="com.example.js01.entity.InsuranceVehicles">
+        <id property="id" column="id"/>
+        <result property="plateNumber" column="plateNumber"/>
+        <result property="numberPlateColour" column="numberPlateColour"/>
+        <result property="vhicleType" column="vhicleType"/>
+        <result property="brandModel" column="brandModel"/>
+        <result property="engineumberN" column="engineumberN"/>
+        <result property="vinOrFrameNumber" column="vinOrFrameNumber"/>
+        <result property="carColor" column="carColor"/>
+        <result property="nuclearLoad" column="nuclearLoad"/>
+        <result property="nuclearLoadMass" column="nuclearLoadMass"/>
+        <result property="displacement" column="displacement"/>
+        <result property="negotiatingRealValue" column="negotiatingRealValue"/>
+        <result property="DateOfFirstRegistration" column="DateOfFirstRegistration"/>
+        <result property="natureOfUse" column="natureOfUse"/>
+        <result property="vehicleUse" column="vehicleUse"/>
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="updatedBy" column="updated_by"/>
+
+
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
+    <!--添加车辆信息-->
     <insert id="addInsuranceVehicles" parameterType="com.example.js01.entity.InsuranceVehicles">
         INSERT INTO insurancevehicles(plateNumber,numberPlateColour,vhicleType,brandModel,
         engineumberN,vinOrFrameNumber,carColor,nuclearLoad,nuclearLoadMass,displacement,
@@ -12,5 +43,11 @@
         #{negotiatingRealValue},#{DateOfFirstRegistration},#{natureOfUse},#{vehicleUse},
         #{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
     </insert>
+
+
+    <select id="queryInsuranceVehicles" resultMap="BaseResultMap">
+        SELECT * FROM insuranceordertocar LEFT JOIN insurancevehicles ON
+ insuranceordertocar.car_id = insurancevehicles.id WHERE insuranceordertocar.order_id = #{id}
+    </select>
 </mapper>
 

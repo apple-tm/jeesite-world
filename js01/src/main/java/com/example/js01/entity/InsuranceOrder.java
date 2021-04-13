@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class InsuranceOrder extends BaseEntity {
 
+    private static final  long  serialVersionUID = 1823712083701287L;
     private Integer id;
     private BigDecimal feeSum;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -21,6 +22,36 @@ public class InsuranceOrder extends BaseEntity {
     private Insurer insurer;
     private List<TypesOfInsurance> typesOfInsurance;
     private List<InsuranceVehicles> insuranceVehicles ;
+
+    private Integer insuredId;
+    private Integer theInsuredId;
+
+    public InsuranceOrder() {
+    }
+
+    public Integer getInsuredId() {
+        return insuredId;
+    }
+
+    public void setInsuredId(Integer insuredId) {
+        this.insuredId = insuredId;
+    }
+
+    public Integer getTheInsuredId() {
+        return theInsuredId;
+    }
+
+    public void setTheInsuredId(Integer theInsuredId) {
+        this.theInsuredId = theInsuredId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public BigDecimal getFeeSum() {
         return feeSum;
@@ -76,13 +107,5 @@ public class InsuranceOrder extends BaseEntity {
 
     public void setInsuranceVehicles(List<InsuranceVehicles> insuranceVehicles) {
         this.insuranceVehicles = insuranceVehicles;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

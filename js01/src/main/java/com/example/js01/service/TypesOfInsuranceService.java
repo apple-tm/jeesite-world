@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TypesOfInsuranceService {
     String addInsurance(TypesOfInsurance insurance);
+
 }

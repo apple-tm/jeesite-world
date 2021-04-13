@@ -1,5 +1,6 @@
 package com.wh.js02.controller;
 
+import com.wh.js02.annotation.Exclude;
 import com.wh.js02.entity.Js02Dept;
 import com.wh.js02.entity.ResultVo;
 import com.wh.js02.entity.UserEntity;
@@ -28,7 +29,10 @@ public class LoginController {
 
 
     @PostMapping("/login")
+    @ResponseBody
+    @Exclude
     public String login(@RequestBody UserEntity userEntity){
+
         return loginService.login(userEntity);
     }
 

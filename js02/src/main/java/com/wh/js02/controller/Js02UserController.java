@@ -1,5 +1,6 @@
 package com.wh.js02.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.wh.js02.entity.Js02User;
 import com.wh.js02.entity.ResultVo;
 import com.wh.js02.req.PageDTO;
@@ -22,32 +23,36 @@ public class Js02UserController {
 
 
 
-    @PostMapping("/userLogin")
-//    @ResponseBody
-    public ModelAndView login(@RequestBody Js02User js02User){
-        ResultVo resultVo = new ResultVo<>();
+    @PostMapping("/api/userLogin")
+    @ResponseBody
+    public ResultVo<Js02User> login(@RequestBody Js02User js02User){
+        ResultVo<Js02User> resultVo = new ResultVo<>();
 
         if (js02User.getUserPhone() == null
                 || "".equals(js02User.getUserPhone())
-                || js02User.getUserPassword() == null
-                || "".equals(js02User.getUserPassword())){
-            resultVo.fail("输入有误！");
+                ){
+            resultVo.fail("请输入手机号");
 
-        }else {
+        }else if (js02User.getUserPassword() == null
+                || "".equals(js02User.getUserPassword())){
+            resultVo.fail("请输入密码");
+        } else {
             Js02User js02User1 = js02UserService.login(js02User);
             if (js02User1 != null){
                 resultVo.setBody(js02User1);
                 resultVo.success();
+            } else {
+                resultVo.fail("登录失败，用户不存在");
             }
         }
 
 
-        return new ModelAndView("home");
+        return resultVo;
     }
 
 
 
-
+    //主页面
     @RequestMapping("/homePage")
     public String homePage(){
         return "home";

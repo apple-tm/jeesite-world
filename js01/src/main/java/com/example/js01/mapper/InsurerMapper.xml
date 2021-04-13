@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.js01.mapper.InsurerMapper">
+
+<resultMap id="BaseResultMap" type="com.example.js01.entity.Insurer">
+        <id property="id" column="id"/>
+        <result property="corporateName" column="corporateName"/>
+        <result property="corporateAddress" column="corporateAddress"/>
+        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="postalCode" column="postalCode"/>
+
+
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
     <!--添加被保险人-->
     <insert id="addInsurer" parameterType="com.example.js01.entity.Insurer">
         INSERT INTO insurer(corporateName,corporateAddress,phoneNumber,postalCode,
@@ -8,4 +24,9 @@
         VALUES (#{corporateName},#{corporateAddress},#{phoneNumber},#{postalCode},
         #{status},#{createdTime},#{createdBy},#{updatedTime},#{updatedBy})
     </insert>
+
+    <!--从订单表中insured_id查询insured表-->
+    <select id="queryInsurer" resultMap="BaseResultMap">
+        SELECT * FROM insurer WHERE id = #{id}
+    </select>
 </mapper>

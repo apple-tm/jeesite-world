@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js03DeptMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03Dept">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="dept_grade" jdbcType="INTEGER" property="deptGrade" />
+    <result column="parent_dept_code" jdbcType="VARCHAR" property="parentDeptCode" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="stauts" jdbcType="INTEGER" property="stauts" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dept_name, dept_code, dept_grade, parent_dept_code, sort, stauts, create_time, 
+    create_by, update_time, update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js03_dept
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js03_dept
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js03Dept">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into js03_dept (dept_name, dept_code, dept_grade, 
+      parent_dept_code, sort, stauts, 
+      create_time, create_by, update_time, 
+      update_by)
+    values (#{deptName,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, #{deptGrade,jdbcType=INTEGER}, 
+      #{parentDeptCode,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{stauts,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03Dept">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into js03_dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="deptGrade != null">
+        dept_grade,
+      </if>
+      <if test="parentDeptCode != null">
+        parent_dept_code,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="stauts != null">
+        stauts,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptGrade != null">
+        #{deptGrade,jdbcType=INTEGER},
+      </if>
+      <if test="parentDeptCode != null">
+        #{parentDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="stauts != null">
+        #{stauts,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03Dept">
+    update js03_dept
+    <set>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptGrade != null">
+        dept_grade = #{deptGrade,jdbcType=INTEGER},
+      </if>
+      <if test="parentDeptCode != null">
+        parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="stauts != null">
+        stauts = #{stauts,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03Dept">
+    update js03_dept
+    set dept_name = #{deptName,jdbcType=VARCHAR},
+      dept_code = #{deptCode,jdbcType=VARCHAR},
+      dept_grade = #{deptGrade,jdbcType=INTEGER},
+      parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      stauts = #{stauts,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryDeptByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from js03_dept
+    WHERE
+    deptCode = #{deptCode}
+  </select>
+</mapper>

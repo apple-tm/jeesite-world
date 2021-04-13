@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -127,7 +128,7 @@ public class DataExportController {
         int lastRowNum = sheet.getLastRowNum();
         for (int i = 1; i <= lastRowNum; i++) {
             XSSFRow row = sheet.getRow(i);
-            row.getCell(0);
+            XSSFCell goodsName = row.getCell(0);
             System.out.println(row.getCell(0).getStringCellValue());
         }
 

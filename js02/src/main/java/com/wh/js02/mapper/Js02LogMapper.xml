@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js02LogMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Log">
+    <id column="js02_log_id" jdbcType="INTEGER" property="js02LogId" />
+    <result column="js02_log_url" jdbcType="VARCHAR" property="js02LogUrl" />
+    <result column="js02_log_method" jdbcType="VARCHAR" property="js02LogMethod" />
+    <result column="js02_log_time" jdbcType="TIMESTAMP" property="js02LogTime" />
+    <result column="js02_user_id" jdbcType="INTEGER" property="js02UserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    js02_log_id, js02_log_url, js02_log_method, js02_log_time, js02_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log (js02_log_id, js02_log_url, js02_log_method, 
+      js02_log_time, js02_user_id)
+    values (#{js02LogId,jdbcType=INTEGER}, #{js02LogUrl,jdbcType=VARCHAR}, #{js02LogMethod,jdbcType=VARCHAR}, 
+      #{js02LogTime,jdbcType=TIMESTAMP}, #{js02UserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        js02_log_id,
+      </if>
+      <if test="js02LogUrl != null">
+        js02_log_url,
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method,
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time,
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        #{js02LogId,jdbcType=INTEGER},
+      </if>
+      <if test="js02LogUrl != null">
+        #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    <set>
+      <if test="js02LogUrl != null">
+        js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id = #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    set js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      js02_user_id = #{js02UserId,jdbcType=INTEGER}
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Log">
+    <id column="js02_log_id" jdbcType="INTEGER" property="js02LogId" />
+    <result column="js02_log_url" jdbcType="VARCHAR" property="js02LogUrl" />
+    <result column="js02_log_method" jdbcType="VARCHAR" property="js02LogMethod" />
+    <result column="js02_log_time" jdbcType="TIMESTAMP" property="js02LogTime" />
+    <result column="js02_user_id" jdbcType="INTEGER" property="js02UserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    js02_log_id, js02_log_url, js02_log_method, js02_log_time, js02_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log (js02_log_id, js02_log_url, js02_log_method, 
+      js02_log_time, js02_user_id)
+    values (#{js02LogId,jdbcType=INTEGER}, #{js02LogUrl,jdbcType=VARCHAR}, #{js02LogMethod,jdbcType=VARCHAR}, 
+      #{js02LogTime,jdbcType=TIMESTAMP}, #{js02UserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        js02_log_id,
+      </if>
+      <if test="js02LogUrl != null">
+        js02_log_url,
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method,
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time,
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        #{js02LogId,jdbcType=INTEGER},
+      </if>
+      <if test="js02LogUrl != null">
+        #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    <set>
+      <if test="js02LogUrl != null">
+        js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id = #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    set js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      js02_user_id = #{js02UserId,jdbcType=INTEGER}
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Log">
+    <id column="js02_log_id" jdbcType="INTEGER" property="js02LogId" />
+    <result column="js02_log_url" jdbcType="VARCHAR" property="js02LogUrl" />
+    <result column="js02_log_method" jdbcType="VARCHAR" property="js02LogMethod" />
+    <result column="js02_log_time" jdbcType="TIMESTAMP" property="js02LogTime" />
+    <result column="js02_user_id" jdbcType="INTEGER" property="js02UserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    js02_log_id, js02_log_url, js02_log_method, js02_log_time, js02_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log (js02_log_id, js02_log_url, js02_log_method, 
+      js02_log_time, js02_user_id)
+    values (#{js02LogId,jdbcType=INTEGER}, #{js02LogUrl,jdbcType=VARCHAR}, #{js02LogMethod,jdbcType=VARCHAR}, 
+      #{js02LogTime,jdbcType=TIMESTAMP}, #{js02UserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        js02_log_id,
+      </if>
+      <if test="js02LogUrl != null">
+        js02_log_url,
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method,
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time,
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        #{js02LogId,jdbcType=INTEGER},
+      </if>
+      <if test="js02LogUrl != null">
+        #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    <set>
+      <if test="js02LogUrl != null">
+        js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id = #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    set js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      js02_user_id = #{js02UserId,jdbcType=INTEGER}
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js02Log">
+    <id column="js02_log_id" jdbcType="INTEGER" property="js02LogId" />
+    <result column="js02_log_url" jdbcType="VARCHAR" property="js02LogUrl" />
+    <result column="js02_log_method" jdbcType="VARCHAR" property="js02LogMethod" />
+    <result column="js02_log_time" jdbcType="TIMESTAMP" property="js02LogTime" />
+    <result column="js02_user_id" jdbcType="INTEGER" property="js02UserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    js02_log_id, js02_log_url, js02_log_method, js02_log_time, js02_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js02_log
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log (js02_log_id, js02_log_url, js02_log_method, 
+      js02_log_time, js02_user_id)
+    values (#{js02LogId,jdbcType=INTEGER}, #{js02LogUrl,jdbcType=VARCHAR}, #{js02LogMethod,jdbcType=VARCHAR}, 
+      #{js02LogTime,jdbcType=TIMESTAMP}, #{js02UserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js02Log">
+    insert into js02_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        js02_log_id,
+      </if>
+      <if test="js02LogUrl != null">
+        js02_log_url,
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method,
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time,
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="js02LogId != null">
+        #{js02LogId,jdbcType=INTEGER},
+      </if>
+      <if test="js02LogUrl != null">
+        #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    <set>
+      <if test="js02LogUrl != null">
+        js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogMethod != null">
+        js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="js02LogTime != null">
+        js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js02UserId != null">
+        js02_user_id = #{js02UserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js02Log">
+    update js02_log
+    set js02_log_url = #{js02LogUrl,jdbcType=VARCHAR},
+      js02_log_method = #{js02LogMethod,jdbcType=VARCHAR},
+      js02_log_time = #{js02LogTime,jdbcType=TIMESTAMP},
+      js02_user_id = #{js02UserId,jdbcType=INTEGER}
+    where js02_log_id = #{js02LogId,jdbcType=INTEGER}
+  </update>
+</mapper>

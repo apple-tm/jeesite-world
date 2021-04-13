@@ -6,11 +6,13 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.js01.entity.ChangePassword;
 import com.example.js01.entity.LoginReqDTO;
 import com.example.js01.entity.RegisterUser;
+import com.example.js01.entity.UserDemo;
 import com.example.js01.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -125,5 +127,11 @@ public class RegisterController {
     public String changePassword(@RequestBody ChangePassword changePassword) {
         return registerService.changePassword(changePassword);
     }
+
+    @PostMapping("/register2")
+    public @ResponseBody String register2(@RequestBody UserDemo userDemo) {
+        return null;
+    }
+
 
 }

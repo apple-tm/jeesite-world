@@ -39,5 +39,13 @@
         </foreach>
     </select>
 
+    <select id="queryInsuranceType" resultMap="BaseResultMap">
+        SELECT * FROM insuranceordertoinsuretype LEFT JOIN typesofinsurance
+        ON
+	    insuranceordertoinsuretype.insure_id = typesofinsurance.id
+	    WHERE
+	    insuranceordertoinsuretype.order_id = #{id}
+    </select>
+
 </mapper>
 

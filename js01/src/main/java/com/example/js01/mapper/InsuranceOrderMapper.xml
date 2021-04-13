@@ -1,7 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.js01.mapper.InsuranceOrderMapper">
-    <!--添加保险类型-->
+
+    <resultMap id="BaseResultMap" type="com.example.js01.entity.InsuranceOrder">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="fee_sum" jdbcType="DECIMAL" property="feeSum" />
+        <result column="insure_start_time" jdbcType="DATE" property="insureStartTime" />
+        <result column="insure_end_time" jdbcType="DATE" property="insureEndTime" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+
+        <result column="insurer_id" property="insuredId"/>
+        <result column="the_insured_id" property="theInsuredId"/>
+
+        <!--<association property="theInsured" javaType="com.example.js01.entity.TheInsured" >-->
+            <!--<id property="id" column="id"/>-->
+            <!--<result property="insuredName" column="InsuredName"/>-->
+            <!--<result property="insuredIdNumber" column="InsuredIdNumber"/>-->
+            <!--<result property="driverSLicense" column="DriverSLicense"/>-->
+            <!--<result property="address" column="address"/>-->
+            <!--<result property="telephoneNumber" column="telephoneNumber"/>-->
+            <!--<result property="status" column="status"/>-->
+            <!--<result property="createdTime" column="created_time"/>-->
+            <!--<result property="createdBy" column="created_by"/>-->
+            <!--<result property="updatedTime" column="updated_time"/>-->
+            <!--<result property="updatedBy" column="updated_by"/>-->
+        <!--</association>-->
+
+        <!--<association property="insurer" javaType="com.example.js01.entity.Insurer">-->
+            <!--<id property="id" column="id"/>-->
+            <!--<result property="corporateName" column="corporateName"/>-->
+            <!--<result property="corporateAddress" column="corporateAddress"/>-->
+            <!--<result property="phoneNumber" column="phoneNumber"/>-->
+            <!--<result property="postalCode" column="postalCode"/>-->
+
+
+            <!--<result property="status" column="status"/>-->
+            <!--<result property="createdTime" column="created_time"/>-->
+            <!--<result property="createdBy" column="created_by"/>-->
+            <!--<result property="updatedTime" column="updated_time"/>-->
+            <!--<result property="updatedBy" column="updated_by"/>-->
+        <!--</association>-->
+
+        <collection property="insuranceVehicles" javaType="java.util.ArrayList" ofType="com.example.js01.entity.InsuranceVehicles">
+            <id property="id" column="iid"/>
+            <result property="plateNumber" column="plateNumber"/>
+            <result property="numberPlateColour" column="numberPlateColour"/>
+            <result property="vhicleType" column="vhicleType"/>
+            <result property="brandModel" column="brandModel"/>
+            <result property="engineumberN" column="engineumberN"/>
+            <result property="vinOrFrameNumber" column="vinOrFrameNumber"/>
+            <result property="carColor" column="carColor"/>
+            <result property="nuclearLoad" column="nuclearLoad"/>
+            <result property="nuclearLoadMass" column="nuclearLoadMass"/>
+            <result property="displacement" column="displacement"/>
+            <result property="negotiatingRealValue" column="negotiatingRealValue"/>
+            <result property="DateOfFirstRegistration" column="DateOfFirstRegistration"/>
+            <result property="natureOfUse" column="natureOfUse"/>
+            <result property="vehicleUse" column="vehicleUse"/>
+            <result property="status" column="status"/>
+            <result property="createdTime" column="created_time"/>
+            <result property="createdBy" column="created_by"/>
+            <result property="updatedTime" column="updated_time"/>
+            <result property="updatedBy" column="updated_by"/>
+
+
+            <result property="status" column="status"/>
+            <result property="createdTime" column="created_time"/>
+            <result property="createdBy" column="created_by"/>
+            <result property="updatedTime" column="updated_time"/>
+            <result property="updatedBy" column="updated_by"/>
+        </collection>
+
+        <collection property="typesOfInsurance" javaType="java.util.ArrayList" ofType="com.example.js01.entity.TypesOfInsurance">
+            <id property="id" column="tid"/>
+            <result property="typeOfInsurance" column="typeOfInsurance"/>
+            <result property="insuranceAmount" column="insuranceAmount"/>
+            <result property="accidentAbsoluteDeductible" column="accidentAbsoluteDeductible"/>
+            <result property="irrespectiveOfPercentage" column="irrespectiveOfPercentage"/>
+            <result property="insurancePremium" column="insurancePremium"/>
+
+
+            <result property="status" column="status"/>
+            <result property="createdTime" column="created_time"/>
+            <result property="createdBy" column="created_by"/>
+            <result property="updatedTime" column="updated_time"/>
+            <result property="updatedBy" column="updated_by"/>
+        </collection>
+    </resultMap>
+
+
+    <!---->
     <insert id="addInsuranceOrder"  useGeneratedKeys="true" keyProperty="id"  keyColumn="id"  parameterType="com.example.js01.entity.InsuranceOrder">
         INSERT INTO InsuranceOrder
                 (fee_sum,
@@ -68,5 +160,87 @@
         </foreach>
     </insert>
 
+    <select id="queryOrder" parameterType="com.example.js01.entity.InsuranceOrder" resultMap="BaseResultMap" >
+        SELECT
+          io.id,io.fee_sum,io.insure_start_time,io.insure_end_time,io.insurer_id,io.status,
+          io.created_time,io.created_by,io.updated_time,io.updated_by,io.the_insured_id,
+          ins.id,ins.corporateName,ins.corporateAddress,ins.phoneNumber,ins.postalCode,
+          ins.status,ins.created_time,ins.created_by,ins.updated_time,ins.updated_by,
+          ti.id,ti.InsuredName,ti.InsuredIdNumber,ti.DriverSLicense,ti.address,
+          ti.telephoneNumber,ti.status,ti.created_time,ti.created_by,ti.updated_time,ti.updated_by,
+          iv.id iid,iv.plateNumber,iv.numberPlateColour,iv.vhicleType,iv.brandModel,
+          iv.engineumberN,iv.vinOrFrameNumber,iv.carColor,iv.nuclearLoad,iv.nuclearLoadMass,
+          iv.displacement,iv.negotiatingRealValue,iv.DateOfFirstRegistration,iv.natureOfUse,
+          iv.vehicleUse,iv.status,iv.created_time,iv.created_by,iv.updated_time,iv.updated_by,
+          toi.id tid,toi.typeOfInsurance,toi.insuranceAmount,toi.accidentAbsoluteDeductible,
+          toi.irrespectiveOfPercentage,toi.insurancePremium,toi.status,toi.created_time,
+          toi.created_by,toi.updated_time,toi.updated_by
+         FROM insuranceorder io
+        LEFT JOIN insurer ins ON io.insurer_id=ins.id
+        LEFT JOIN theinsured ti ON io.the_insured_id = ti.id
+        LEFT JOIN insuranceordertocar ON insuranceordertocar.order_id = io.id
+        LEFT JOIN insurancevehicles iv ON iv.id = insuranceordertocar.car_id
+        LEFT JOIN insuranceordertoinsuretype ON insuranceordertoinsuretype.order_id = io.id
+        LEFT JOIN typesofinsurance toi ON toi.id = insuranceordertoinsuretype.insure_id
+        WHERE io.id = #{id}
+    </select>
+
+    <!--<select id="rangQuery" parameterType="com.example.js01.entity.QueryCommon" resultMap="BaseResultMap">
+        SELECT
+          io.id,io.fee_sum,io.insure_start_time,io.insure_end_time,io.insurer_id,io.status,
+          io.created_time,io.created_by,io.updated_time,io.updated_by,io.the_insured_id,
+          ins.id,ins.corporateName,ins.corporateAddress,ins.phoneNumber,ins.postalCode,
+          ins.status,ins.created_time,ins.created_by,ins.updated_time,ins.updated_by,
+          ti.id,ti.InsuredName,ti.InsuredIdNumber,ti.DriverSLicense,ti.address,
+          ti.telephoneNumber,ti.status,ti.created_time,ti.created_by,ti.updated_time,ti.updated_by,
+          iv.id iid,iv.plateNumber,iv.numberPlateColour,iv.vhicleType,iv.brandModel,
+          iv.engineumberN,iv.vinOrFrameNumber,iv.carColor,iv.nuclearLoad,iv.nuclearLoadMass,
+          iv.displacement,iv.negotiatingRealValue,iv.DateOfFirstRegistration,iv.natureOfUse,
+          iv.vehicleUse,iv.status,iv.created_time,iv.created_by,iv.updated_time,iv.updated_by,
+          toi.id tid,toi.typeOfInsurance,toi.insuranceAmount,toi.accidentAbsoluteDeductible,
+          toi.irrespectiveOfPercentage,toi.insurancePremium,toi.status,toi.created_time,
+          toi.created_by,toi.updated_time,toi.updated_by
+         FROM insuranceorder io
+        LEFT JOIN insurer ins ON io.insurer_id=ins.id
+        LEFT JOIN theinsured ti ON io.the_insured_id = ti.id
+        LEFT JOIN insuranceordertocar ON insuranceordertocar.order_id = io.id
+        LEFT JOIN insurancevehicles iv ON iv.id = insuranceordertocar.car_id
+        LEFT JOIN insuranceordertoinsuretype ON insuranceordertoinsuretype.order_id = io.id
+        LEFT JOIN typesofinsurance toi ON toi.id = insuranceordertoinsuretype.insure_id
+        WHERE io.fee_sum &gt; #{minFeeSum} and fee_sum &lt; #{maxFeeSum} LIMIT #{pageNo},#{pageSize}
+
+
+    </select>-->
+
+    <!--订单id查询订单-->
+    <select id="queryorder" parameterType="com.example.js01.entity.InsuranceOrder" resultMap="BaseResultMap">
+        SELECT * FROM insuranceorder WHERE id = #{id}
+    </select>
+
+
+    <!--通过被保险人名字查询订单-->
+    <select id="queryOrderByTheInsuredName" parameterType="com.example.js01.entity.TheInsured" resultMap="BaseResultMap">
+        SELECT * FROM insuranceorder io LEFT JOIN theinsured ti
+        on io.the_insured_id =  ti.id
+        WHERE ti.InsuredName = #{insuredName} limit 0,10
+    </select>
+
+
+    <!--通过保险公司名称查询订单-->
+    <select id="queryOrderByInsurerName" parameterType="com.example.js01.entity.Insurer" resultMap="BaseResultMap">
+        SELECT * FROM insuranceorder io LEFT JOIN insurer ins
+        on io.insurer_id = ins.id
+        WHERE ins.corporateName = #{corporateName} limit 0,10
+    </select>
+
+
+    <!--通过车牌号码查询订单-->
+    <select id="queryOrderByplateNumber" parameterType="com.example.js01.entity.InsuranceVehicles" resultMap="BaseResultMap">
+        SELECT * FROM insuranceorder io LEFT JOIN insuranceordertocar ioc
+        on io.id = ioc.order_id
+        LEFT JOIN insurancevehicles iv
+        on iv.id = ioc.car_id
+        WHERE iv.plateNumber = #{plateNumber} limit 0,10
+    </select>
 </mapper>
 
