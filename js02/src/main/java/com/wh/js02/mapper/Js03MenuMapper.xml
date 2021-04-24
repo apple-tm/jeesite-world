@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wh.js02.mapper.Js03DeptMapper">
-  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03Dept">
+<mapper namespace="com.wh.js02.mapper.Js03MenuMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03Menu">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
-    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
-    <result column="dept_grade" jdbcType="INTEGER" property="deptGrade" />
-    <result column="parent_dept_code" jdbcType="VARCHAR" property="parentDeptCode" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -15,49 +15,49 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, dept_name, dept_code, dept_grade, parent_dept_code, sort, status, create_time,
-    create_by, update_time, update_by
+    id, menu_name, permission_value, parent_id, type, sort, status, create_time, create_by, 
+    update_time, update_by
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from js03_dept
+    from js03_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from js03_dept
+    delete from js03_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wh.js02.entity.Js03Dept">
+  <insert id="insert" parameterType="com.wh.js02.entity.Js03Menu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into js03_dept (dept_name, dept_code, dept_grade, 
-      parent_dept_code, sort, status,
+    insert into js03_menu (menu_name, permission_value, parent_id, 
+      type, sort, status, 
       create_time, create_by, update_time, 
       update_by)
-    values (#{deptName,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, #{deptGrade,jdbcType=INTEGER}, 
-      #{parentDeptCode,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    values (#{menuName,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03Dept">
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03Menu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into js03_dept
+    insert into js03_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="deptName != null">
-        dept_name,
+      <if test="menuName != null">
+        menu_name,
       </if>
-      <if test="deptCode != null">
-        dept_code,
+      <if test="permissionValue != null">
+        permission_value,
       </if>
-      <if test="deptGrade != null">
-        dept_grade,
+      <if test="parentId != null">
+        parent_id,
       </if>
-      <if test="parentDeptCode != null">
-        parent_dept_code,
+      <if test="type != null">
+        type,
       </if>
       <if test="sort != null">
         sort,
@@ -79,17 +79,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="deptName != null">
-        #{deptName,jdbcType=VARCHAR},
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="deptCode != null">
-        #{deptCode,jdbcType=VARCHAR},
+      <if test="permissionValue != null">
+        #{permissionValue,jdbcType=VARCHAR},
       </if>
-      <if test="deptGrade != null">
-        #{deptGrade,jdbcType=INTEGER},
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="parentDeptCode != null">
-        #{parentDeptCode,jdbcType=VARCHAR},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
@@ -111,20 +111,20 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03Dept">
-    update js03_dept
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03Menu">
+    update js03_menu
     <set>
-      <if test="deptName != null">
-        dept_name = #{deptName,jdbcType=VARCHAR},
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="deptCode != null">
-        dept_code = #{deptCode,jdbcType=VARCHAR},
+      <if test="permissionValue != null">
+        permission_value = #{permissionValue,jdbcType=VARCHAR},
       </if>
-      <if test="deptGrade != null">
-        dept_grade = #{deptGrade,jdbcType=INTEGER},
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="parentDeptCode != null">
-        parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
@@ -147,12 +147,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03Dept">
-    update js03_dept
-    set dept_name = #{deptName,jdbcType=VARCHAR},
-      dept_code = #{deptCode,jdbcType=VARCHAR},
-      dept_grade = #{deptGrade,jdbcType=INTEGER},
-      parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03Menu">
+    update js03_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      permission_value = #{permissionValue,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -161,54 +161,40 @@
       update_by = #{updateBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="queryDeptByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select *
-    from js03_dept
-    WHERE
-    deptCode = #{deptCode}
+
+
+  <insert id="insertMenu" parameterType="com.wh.js02.entity.Js03Menu">
+    insert into js03_menu (menu_name, permission_value, parent_id, status)
+    VALUES (#{menuName}, #{permissionValue}, #{parentId}, ${1})
+  </insert>
+
+  <select id="select" resultType="List" resultMap="BaseResultMap">
+    select id, menu_name,permission_value,parent_id,TYPE ,sort
+    from js03_menu
+    WHERE status=${1}
+
   </select>
 
-  <select id="selectAll" resultType="List" resultMap="BaseResultMap">
-    SELECT id,dept_name,dept_code,dept_grade
-    FROM js03_dept
-    WHERE
-    status = ${1}
-    limit #{offset},#{pageSize}
-  </select>
-
-  <update id="updateById" parameterType="com.wh.js02.entity.Js03Dept">
-    update js03_dept SET
-    dept_name = #{deptName,jdbcType=VARCHAR},
-    dept_code = #{deptCode,jdbcType=VARCHAR},
-    dept_grade = #{deptGrade,jdbcType=INTEGER},
-    parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR}
-    WHERE
-    id = #{id,jdbcType=INTEGER}
+  <update id="updateById" parameterType="com.wh.js02.entity.Js03Menu">
+    update js03_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+     permission_value = #{permissionValue},
+     parent_id = #{parentId}
+    where id  = #{id}
   </update>
 
   <update id="deleteById">
-    update js03_dept SET
-    status = ${-1}
-    WHERE
-    id = #{id}
+    update js03_menu
+    set status = ${-1}
+    WHERE id = #{id}
   </update>
 
-  <insert id="insertDept" parameterType="com.wh.js02.entity.Js03Dept">
-    insert into js03_dept
-    (dept_name, dept_code, dept_grade,
-      parent_dept_code,status)
-      VALUES (#{deptName},#{deptCode},#{deptGrade},#{parentDeptCode}, ${1})
-  </insert>
-
-  <select id="fuzzyQuery" resultType="List" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" />
-    from js03_dept
-    where
-    dept_name like concat('%',#{searchKey},'%')
-    or dept_code like concat('%', #{searchKey},'%')
-    or dept_grade like concat('%', #{searchKey}, '%')
-    and status = ${1}
+  <select id="fuzzyQuery" resultMap="BaseResultMap" resultType="list">
+    select id,menu_name,permission_value,parent_id
+    from js02.js03_menu
+    where status = ${1} AND
+    menu_name like concat('%',#{searchKey},'%') OR
+    permission_value like concat('%',#{searchKey},'%')
   </select>
 
 </mapper>

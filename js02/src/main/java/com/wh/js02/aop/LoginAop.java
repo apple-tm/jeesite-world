@@ -19,7 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Aspect
+//@Aspect
 @Component
 public class LoginAop {
     @Autowired

@@ -34,6 +34,14 @@
                         userId="root"
                         password="Root!!2020">
         </jdbcConnection>
+        <!-- todo
+            Caused by: org.apache.maven.plugin.MojoExecutionException:
+            XML Parser Error on line 70: Ԫ������Ϊ "context" �����ݱ���ƥ�� "
+            (property*,plugin*,commentGenerator?,(connectionFactory|jdbcConnection),
+            javaTypeResolver?,javaModelGenerator,sqlMapGenerator?,
+            javaClientGenerator?,table+)"��
+        -->
+        <!--上面标签</jdbcConnection>.多了一个点导致报错-->
 
         <!-- 类型转换 -->
 
@@ -63,43 +71,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!--<table tableName="article" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table tableName="js02_user" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            &lt;!&ndash;<generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;
-        </table>-->
-
-        <!--<table tableName="js02_role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-            <!--&lt;!&ndash;<generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;-->
-        <!--</table>-->
-
-        <!--<table tableName="js02_dept" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-            <!--&lt;!&ndash;<generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;-->
-        <!--</table>-->
-
-        <!--<table tableName="js02_menu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-        <!--&lt;!&ndash;<generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;-->
-        <!--</table>-->
-
-        <!--<table tableName="js02_goods" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>-->
-
-        <!--<table tableName="js02_goods_sum" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>-->
-
-        <!--<table tableName="js03_user" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>-->
-
-        <!--<table tableName="js03_role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
--->
-        <table tableName="js03_dept" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="js03_role_permission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
     </context>

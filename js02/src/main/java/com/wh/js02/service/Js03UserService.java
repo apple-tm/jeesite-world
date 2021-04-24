@@ -12,10 +12,13 @@ public interface Js03UserService {
     ResultVo userLogin(Js03User user);
 
     ResultVo insertUser(Js03User user);
-    ResultVo updateStatus(Js03User user);
+
     ResultVo updateUserById(Js03User user);
+
     ResultVo selectUserById(Js03User user);
+    ResultVo updateStatus(Js03User user);
     ResultVo<PageVo<List<Js03User>>> pageQuery(PageDTO pageDTO);
+    ResultVo<PageVo<List<Js03User>>> fuzzyQuery(PageDTO pageDTO);
 
 
 }

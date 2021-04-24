@@ -11,6 +11,7 @@ import com.wh.js02.req.PageDTO;
 import com.wh.js02.service.Js03UserService;
 import com.wh.js02.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -111,6 +112,31 @@ public class Js03UserServiceImpl implements Js03UserService {
             resultVo.success();
         } else {
             resultVo.fail("修改用户失败");
+        }
+
+        return resultVo;
+    }
+
+    @Override
+    public ResultVo<PageVo<List<Js03User>>> fuzzyQuery(PageDTO pageDTO) {
+        ResultVo resultVo = new ResultVo<>();
+        PageVo<List<Js03User>> pageVo = new PageVo<>();
+
+        int offset = (pageDTO.getPageNo()-1) * pageDTO.getPageSize();
+        int pageSize = pageDTO.getPageSize();
+        String searchKey = pageDTO.getSearchKey();
+        List<Js03User> userList = js03UserMapper.fuzzyQuery(offset,pageSize,searchKey);
+        if (userList != null){
+            //总记录数，总页数
+            int total = userList.size();
+            int totalPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+            pageVo.setTotal(total);
+            pageVo.setTotalPage(totalPage);
+            pageVo.setListBody(userList);
+            resultVo.success();
+            resultVo.setBody(pageVo);
+        } else {
+            resultVo.fail("模糊查询失败");
         }
 
         return resultVo;

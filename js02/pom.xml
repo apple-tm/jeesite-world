@@ -128,47 +128,47 @@
                     <fork>true</fork><!-- 如果没有该配置，热部署的devtools不生效 -->
                  </configuration>
 			</plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.mybatis.generator</groupId>-->
-                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
-                <!--<version>1.3.7</version>-->
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>mysql</groupId>-->
-                        <!--<artifactId>mysql-connector-java</artifactId>-->
-                        <!--<version>8.0.22</version>-->
-                    <!--</dependency>-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.7</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.22</version>
+                    </dependency>
 
-                    <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<groupId>org.mybatis</groupId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<artifactId>mybatis</artifactId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<version>3.5.2</version>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.mybatis.generator</groupId>-->
-                        <!--<artifactId>mybatis-generator-core</artifactId>-->
-                        <!--<version>1.3.7</version>-->
-                    <!--</dependency>-->
+                    <dependency>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                    <version>3.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.7</version>
+                    </dependency>
 
-                <!--</dependencies>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>Generate MyBatis Artifacts</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>generate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash;允许移动生成的文件 &ndash;&gt;-->
-                    <!--<verbose>true</verbose>-->
-                    <!--&lt;!&ndash; 是否覆盖:一定是 false 避免覆盖他人代码 &ndash;&gt;-->
-                    <!--<overwrite>false</overwrite>-->
-                    <!--&lt;!&ndash; 自动生成的配置 &ndash;&gt;-->
-                    <!--<configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--允许移动生成的文件 -->
+                    <verbose>true</verbose>
+                    <!-- 是否覆盖:一定是 false 避免覆盖他人代码 -->
+                    <overwrite>false</overwrite>
+                    <!-- 自动生成的配置 -->
+                    <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
+                </configuration>
+            </plugin>
 		</plugins>
 
         <resources>

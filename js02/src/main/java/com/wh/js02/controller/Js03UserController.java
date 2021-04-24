@@ -44,7 +44,7 @@ public class Js03UserController {
     }
 
     @PostMapping("/query")
-    public @ResponseBody ResultVo selectuser(@RequestBody Js03User user){
+    public @ResponseBody ResultVo selectUser(@RequestBody Js03User user){
         return js03UserService.selectUserById(user);
     }
 
@@ -52,6 +52,12 @@ public class Js03UserController {
     public @ResponseBody
     ResultVo<PageVo<List<Js03User>>> pageQuery(@RequestBody PageDTO pageDTO){
         return js03UserService.pageQuery(pageDTO);
+    }
+
+    @PostMapping("/fuzzyQuery")
+    public @ResponseBody
+    ResultVo<PageVo<List<Js03User>>> fuzzyQuery(@RequestBody PageDTO pageDTO){
+        return js03UserService.fuzzyQuery(pageDTO);
     }
 
 }

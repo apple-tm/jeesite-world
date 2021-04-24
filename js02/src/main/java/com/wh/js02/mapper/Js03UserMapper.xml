@@ -41,7 +41,7 @@
       )
     values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{deptCode,jdbcType=VARCHAR}, 
-      #{parentDeptCode,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, 
+      #{parentDeptCode,jdbcType=VARCHAR}, ${1}, #{createBy,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -208,6 +208,16 @@
     status = ${-1}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="fuzzyQuery" resultType="List" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from js03_user
+    where
+    user_name like concat('%',#{searchKey},'%')
+    or user_code like concat('%', #{searchKey},'%')
+    or phone like concat('%', #{searchKey}, '%')
+    and status = ${1}
+  </select>
 
 
 </mapper>

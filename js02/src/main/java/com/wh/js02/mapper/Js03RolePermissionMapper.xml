@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wh.js02.mapper.Js03RoleMapper">
-  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03Role">
+<mapper namespace="com.wh.js02.mapper.Js03RolePermissionMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03RolePermission">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
-    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
@@ -12,40 +12,40 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, role_code, role_name, status, create_time, create_by, update_time, update_by
+    id, role_code, permission_value, status, create_time, create_by, update_time, update_by
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from js03_role
+    from js03_role_permission
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from js03_role
+    delete from js03_role_permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wh.js02.entity.Js03Role">
+  <insert id="insert" parameterType="com.wh.js02.entity.Js03RolePermission">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into js03_role (role_code, role_name, status, 
+    insert into js03_role_permission (role_code, permission_value, status, 
       create_time, create_by, update_time, 
       update_by)
-    values (#{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+    values (#{roleCode,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03Role">
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03RolePermission">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into js03_role
+    insert into js03_role_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleCode != null">
         role_code,
       </if>
-      <if test="roleName != null">
-        role_name,
+      <if test="permissionValue != null">
+        permission_value,
       </if>
       <if test="status != null">
         status,
@@ -67,8 +67,8 @@
       <if test="roleCode != null">
         #{roleCode,jdbcType=VARCHAR},
       </if>
-      <if test="roleName != null">
-        #{roleName,jdbcType=VARCHAR},
+      <if test="permissionValue != null">
+        #{permissionValue,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -87,14 +87,25 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03Role">
-    update js03_role
+
+  <!--批量插入-->
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into js03_role_permission(role_code, permission_value, create_time,create_by,update_time, update_by)
+    values
+    <foreach collection ="list" item="item" index= "index" separator =",">
+      (#{item.roleCode}, #{item.permissionValue}, #{item.createTime},
+      #{item.createBy}, #{item.updateTime}, #{item.updateBy})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03RolePermission">
+    update js03_role_permission
     <set>
       <if test="roleCode != null">
         role_code = #{roleCode,jdbcType=VARCHAR},
       </if>
-      <if test="roleName != null">
-        role_name = #{roleName,jdbcType=VARCHAR},
+      <if test="permissionValue != null">
+        permission_value = #{permissionValue,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -114,10 +125,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03Role">
-    update js03_role
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03RolePermission">
+    update js03_role_permission
     set role_code = #{roleCode,jdbcType=VARCHAR},
-      role_name = #{roleName,jdbcType=VARCHAR},
+      permission_value = #{permissionValue,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
@@ -125,53 +136,4 @@
       update_by = #{updateBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-  <!--useGeneratedKeys="true" keyProperty="id"-->
-  <insert id="insertRole" parameterType="com.wh.js02.entity.Js03Role" useGeneratedKeys="true" keyProperty="id">
-    insert into js03_role
-    (role_code, role_name, status)
-    VALUES (#{roleCode}, #{roleName}, ${1})
-  </insert>
-
-  <update id="updateById" parameterType="com.wh.js02.entity.Js03Role">
-    update js03_role set
-    role_name = #{roleName},
-    role_Code = #{roleCode}
-    where id = #{id}
-  </update>
-
-  <update id="deleteById">
-    update js03_role SET
-    status = ${-1}
-    WHERE id= #{id}
-  </update>
-  
-  <select id="select" resultType="List" resultMap="BaseResultMap">
-    select id,role_name,role_code, create_time,create_by,update_time,update_by
-    FROM  js03_role
-    where status = ${1}
-    limit #{offset},#{pageSize}
-  </select>
-
-  <select id="fuzzyQuery" resultType="List" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" />
-    from js03_role
-    where
-    role_name like concat('%',#{searchKey},'%')
-    or role_code like concat('%', #{searchKey},'%')
-    and status = ${1}
-  </select>
-
-  <insert id="insertPermission" parameterType="com.wh.js02.entity.Js03RolePermission">
-    insert into js03_role_permission
-    (role_code, permission_value, status, create_time, create_by, update_time, update_by,role_id
-    )
-    VALUES
-    <foreach collection ="list" item="item" index= "index" separator =",">
-      (#{roleCode}, #{permissionValue}, #{status}, #{createTime}, #{createBy}, #{updateTime}, #{updateBy}, #{roleId} )
-    </foreach>
-  </insert>
-
-
 </mapper>

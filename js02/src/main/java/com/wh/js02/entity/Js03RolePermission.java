@@ -1,14 +1,13 @@
 package com.wh.js02.entity;
 
 import java.util.Date;
-import java.util.List;
 
-public class Js03Role {
+public class Js03RolePermission {
     private Integer id;
 
     private String roleCode;
 
-    private String roleName;
+    private String permissionValue;
 
     private Integer status;
 
@@ -19,8 +18,6 @@ public class Js03Role {
     private Date updateTime;
 
     private String updateBy;
-
-    private List<Js03Menu> js03MenuList;
 
     public Integer getId() {
         return id;
@@ -38,12 +35,12 @@ public class Js03Role {
         this.roleCode = roleCode == null ? null : roleCode.trim();
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getPermissionValue() {
+        return permissionValue;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+    public void setPermissionValue(String permissionValue) {
+        this.permissionValue = permissionValue == null ? null : permissionValue.trim();
     }
 
     public Integer getStatus() {
@@ -84,13 +81,5 @@ public class Js03Role {
 
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
-    }
-
-    public List<Js03Menu> getJs03MenuList() {
-        return js03MenuList;
-    }
-
-    public void setJs03MenuList(List<Js03Menu> js03MenuList) {
-        this.js03MenuList = js03MenuList;
     }
 }

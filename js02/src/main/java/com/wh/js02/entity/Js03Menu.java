@@ -2,16 +2,16 @@ package com.wh.js02.entity;
 
 import java.util.Date;
 
-public class Js03Dept {
+public class Js03Menu {
     private Integer id;
 
-    private String deptName;
+    private String menuName;
 
-    private String deptCode;
+    private String permissionValue;
 
-    private Integer deptGrade;
+    private Integer parentId;
 
-    private String parentDeptCode;
+    private Integer type;
 
     private Integer sort;
 
@@ -33,36 +33,36 @@ public class Js03Dept {
         this.id = id;
     }
 
-    public String getDeptName() {
-        return deptName;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName == null ? null : deptName.trim();
+    public void setMenuName(String menuName) {
+        this.menuName = menuName == null ? null : menuName.trim();
     }
 
-    public String getDeptCode() {
-        return deptCode;
+    public String getPermissionValue() {
+        return permissionValue;
     }
 
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode == null ? null : deptCode.trim();
+    public void setPermissionValue(String permissionValue) {
+        this.permissionValue = permissionValue == null ? null : permissionValue.trim();
     }
 
-    public Integer getDeptGrade() {
-        return deptGrade;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setDeptGrade(Integer deptGrade) {
-        this.deptGrade = deptGrade;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public String getParentDeptCode() {
-        return parentDeptCode;
+    public Integer getType() {
+        return type;
     }
 
-    public void setParentDeptCode(String parentDeptCode) {
-        this.parentDeptCode = parentDeptCode == null ? null : parentDeptCode.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getSort() {
@@ -73,12 +73,12 @@ public class Js03Dept {
         this.sort = sort;
     }
 
-    public Integer getStauts() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStauts(Integer stauts) {
-        this.status = stauts;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreateTime() {
