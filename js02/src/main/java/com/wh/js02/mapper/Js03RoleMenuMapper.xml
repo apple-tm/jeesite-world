@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js03RoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03RoleMenu">
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js03RoleMenu">
+    insert into js03_role_menu (role_id, menu_id, status, 
+      create_time, create_by, update_time, 
+      update_by)
+    values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+
+
+  <!--批量插入-->
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into js03_role_menu (role_id, menu_id, status,
+    create_time, create_by, update_time,
+    update_by)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.roleId}, #{item.menuId},${1}, #{item.createTime},
+      #{item.createBy}, #{item.updateTime}, #{item.updateBy})
+    </foreach>
+  </insert>
+
+  <!--修改角色前和删除角色前，需要先删除中间表-->
+  <delete id="deleteRoleMenu">
+    delete from js03_role_menu
+    where role_id = #{roleId}
+  </delete>
+
+
+</mapper>

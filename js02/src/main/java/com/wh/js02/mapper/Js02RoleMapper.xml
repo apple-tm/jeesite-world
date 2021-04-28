@@ -11,6 +11,7 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+
   </resultMap>
   <sql id="Base_Column_List">
     role_id, role_code, role_name, role_grade, status, created_by, created_time, updated_by, 

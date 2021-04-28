@@ -10,6 +10,19 @@
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <collection property="js03MenuList" javaType="java.util.ArrayList" ofType="com.wh.js02.entity.Js03Menu">
+      <!--<id column="id" jdbcType="INTEGER" property="id" />-->
+      <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+      <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
+      <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="sort" jdbcType="INTEGER" property="sort" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, role_code, role_name, status, create_time, create_by, update_time, update_by
@@ -144,14 +157,22 @@
   <update id="deleteById">
     update js03_role SET
     status = ${-1}
-    WHERE id= #{id}
+    WHERE id = #{roleId}
   </update>
   
   <select id="select" resultType="List" resultMap="BaseResultMap">
-    select id,role_name,role_code, create_time,create_by,update_time,update_by
-    FROM  js03_role
-    where status = ${1}
-    limit #{offset},#{pageSize}
+    SELECT jr2.create_by,jr2.create_time,jr2.id,jr2.role_code,jr2.role_name,
+            jr2.update_by,jr2.update_time,jm.create_by,jm.create_time,
+            jm.menu_name,jm.parent_id,jm.permission_value,jm.update_by,jm.update_time
+    from
+        (SELECT jr.create_by,jr.create_time,jr.id,jr.role_code,jr.role_name,
+        jr.update_by,jr.update_time
+        FROM js03_role AS jr where status = ${1} limit #{offset},#{pageSize}) jr2
+
+        LEFT JOIN js03_role_menu AS jrm
+        ON jr2.id = jrm.role_id
+        LEFT JOIN js03_menu AS jm
+        ON jrm.menu_id = jm.id
   </select>
 
   <select id="fuzzyQuery" resultType="List" resultMap="BaseResultMap">
@@ -163,15 +184,8 @@
     and status = ${1}
   </select>
 
-  <insert id="insertPermission" parameterType="com.wh.js02.entity.Js03RolePermission">
-    insert into js03_role_permission
-    (role_code, permission_value, status, create_time, create_by, update_time, update_by,role_id
-    )
-    VALUES
-    <foreach collection ="list" item="item" index= "index" separator =",">
-      (#{roleCode}, #{permissionValue}, #{status}, #{createTime}, #{createBy}, #{updateTime}, #{updateBy}, #{roleId} )
-    </foreach>
-  </insert>
+
+
 
 
 </mapper>

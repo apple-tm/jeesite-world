@@ -1,7 +1,5 @@
 package com.wh.js02.service.impl;
 
-import com.wh.js02.entity.Js03Dept;
-import com.wh.js02.entity.Js03Role;
 import com.wh.js02.entity.Js03User;
 import com.wh.js02.entity.ResultVo;
 import com.wh.js02.mapper.Js03DeptMapper;
@@ -9,12 +7,14 @@ import com.wh.js02.mapper.Js03RoleMapper;
 import com.wh.js02.mapper.Js03UserMapper;
 import com.wh.js02.req.PageDTO;
 import com.wh.js02.service.Js03UserService;
+import com.wh.js02.util.RedisUtil;
 import com.wh.js02.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class Js03UserServiceImpl implements Js03UserService {
@@ -25,6 +25,8 @@ public class Js03UserServiceImpl implements Js03UserService {
     private Js03RoleMapper js03RoleMapper;
     @Autowired
     private Js03DeptMapper js03DeptMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     @Override
@@ -36,6 +38,10 @@ public class Js03UserServiceImpl implements Js03UserService {
             if (!user.getPassword().equals(js03User.getPassword())){
                 resultVo.fail("密码错误");
             } else {
+                String uuid = UUID.randomUUID().toString().replace("-","").toUpperCase();
+                redisUtil.setObject(uuid,js03User,30L,TimeUnit.MINUTES);
+                js03User.setToken(uuid);
+                resultVo.setBody(js03User);
                 resultVo.success();
             }
         } else {

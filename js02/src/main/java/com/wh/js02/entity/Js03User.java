@@ -3,8 +3,10 @@ package com.wh.js02.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Js03User {
+
     private Integer id;
 
     private String userName;
@@ -25,6 +27,10 @@ public class Js03User {
 
     private String createBy;
 
+    private Js03Role js03Role;
+
+    private String token;
+
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -32,6 +38,14 @@ public class Js03User {
 
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    public Js03Role getJs03Role() {
+        return js03Role;
+    }
+
+    public void setJs03Role(Js03Role js03Role) {
+        this.js03Role = js03Role;
+    }
 
     public Integer getId() {
         return id;
@@ -135,5 +149,13 @@ public class Js03User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

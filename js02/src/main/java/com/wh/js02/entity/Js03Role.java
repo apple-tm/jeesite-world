@@ -22,6 +22,7 @@ public class Js03Role {
 
     private List<Js03Menu> js03MenuList;
 
+
     public Integer getId() {
         return id;
     }

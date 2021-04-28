@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wh.js02.mapper.Js03UserMapper">
   <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03User">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="juid" jdbcType="INTEGER" property="id" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="user_code" jdbcType="VARCHAR" property="userCode" />
@@ -15,6 +15,29 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <association property="js03Role" javaType="com.wh.js02.entity.Js03Role">
+      <id column="jrid" jdbcType="INTEGER" property="id" />
+      <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+      <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+      <collection property="js03MenuList" javaType="java.util.ArrayList" ofType="com.wh.js02.entity.Js03Menu">
+        <id column="jmid" jdbcType="INTEGER" property="id" />
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+        <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+      </collection>
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     id, user_name, password, user_code, phone, role_id, dept_code, parent_dept_code, 
@@ -188,8 +211,17 @@
 
 
   <select id="userLogin" parameterType="com.wh.js02.entity.Js03User" resultMap="BaseResultMap">
-    select * from js03_user
-    where phone = #{phone}
+    SELECT
+          ju.id as juid,ju.user_name,ju.`password`,ju.user_code,ju.phone,
+          ju.role_id,
+          jr.id as jrid,jr.role_code,jr.role_name,
+          jm.id as jmid,jm.menu_name
+      FROM
+          js03_user ju
+      LEFT JOIN js03_role jr ON ju.role_id = jr.id
+      LEFT JOIN js03_role_menu jrm ON jr.id = jrm.role_id
+      LEFT JOIN js03_menu jm ON jrm.menu_id = jm.id
+    where ju.phone = #{phone} and ju.status=${1}
   </select>
   <select id="pageQuery" resultType="java.util.List" resultMap="BaseResultMap">
     select * from js03_user

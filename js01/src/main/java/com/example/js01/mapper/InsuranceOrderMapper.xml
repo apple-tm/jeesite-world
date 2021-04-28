@@ -45,6 +45,7 @@
             <!--<result property="updatedBy" column="updated_by"/>-->
         <!--</association>-->
 
+        
         <collection property="insuranceVehicles" javaType="java.util.ArrayList" ofType="com.example.js01.entity.InsuranceVehicles">
             <id property="id" column="iid"/>
             <result property="plateNumber" column="plateNumber"/>

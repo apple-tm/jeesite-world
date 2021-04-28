@@ -25,7 +25,8 @@ public class LoginAop {
     @Autowired
     private RedisUtil redisUtil;
 
-    @Pointcut("within(com.wh.js02.controller..*) && (!@annotation(com.wh.js02.annotation.Exclude)))")
+//    && (!@annotation(com.wh.js02.annotation.Exclude)))
+    @Pointcut("within(com.wh.js02.controller..*)")
     public void loginPointcut(){}
 
     @Around("loginPointcut()")

@@ -22,8 +22,11 @@ public interface Js03RoleMapper {
 
 
     int insertRole(Js03Role record);
+
     int updateById(Js03Role record);
-    int deleteById(Integer id);
+
+    int deleteById(int roleId);
+
     List<Js03Role> select(@Param("offset") int offset,@Param("pageSize") int pageSize);
 
     List<Js03Role> fuzzyQuery(@Param("offset") Integer offset, @Param("pageSize") Integer pageSize,@Param("searchKey") String searchKey);

@@ -3,6 +3,7 @@ package com.wh.js02.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-//@Component
+@Component
 public class RedisUtil {
 
     // 项目中有两个redisTemplate的Bean，而redisTemplate刚好可以指定到RedisTemplate类，
