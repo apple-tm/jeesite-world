@@ -2,9 +2,11 @@ package com.wh.js02.controller;
 
 import com.wh.js02.annotation.Exclude;
 import com.wh.js02.entity.Js02Dept;
+import com.wh.js02.entity.Js03User;
 import com.wh.js02.entity.ResultVo;
 import com.wh.js02.entity.UserEntity;
 import com.wh.js02.mapper.Js02DeptMapper;
+import com.wh.js02.service.Js03UserService;
 import com.wh.js02.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,19 @@ import java.util.List;
 import static com.wh.js02.constant.URLConstant.LOGIN_PAGE;
 
 @Controller
+@CrossOrigin
 public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private Js03UserService js03UserService;
+
+    @PostMapping("/api/user/login")
+    public @ResponseBody ResultVo userLogin(@RequestBody Js03User user) throws Exception{
+        return js03UserService.userLogin(user);
+    }
 
     @GetMapping(LOGIN_PAGE)
     public String loginPage(){

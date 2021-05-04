@@ -11,7 +11,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <collection property="js03MenuList" javaType="java.util.ArrayList" ofType="com.wh.js02.entity.Js03Menu">
-      <!--<id column="id" jdbcType="INTEGER" property="id" />-->
+      <id column="jmid" jdbcType="INTEGER" property="id" />
       <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
       <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
       <result column="parent_id" jdbcType="INTEGER" property="parentId" />
@@ -162,7 +162,7 @@
   
   <select id="select" resultType="List" resultMap="BaseResultMap">
     SELECT jr2.create_by,jr2.create_time,jr2.id,jr2.role_code,jr2.role_name,
-            jr2.update_by,jr2.update_time,jm.create_by,jm.create_time,
+            jr2.update_by,jr2.update_time,jm.id as jmid,jm.create_by,jm.create_time,
             jm.menu_name,jm.parent_id,jm.permission_value,jm.update_by,jm.update_time
     from
         (SELECT jr.create_by,jr.create_time,jr.id,jr.role_code,jr.role_name,

@@ -9,6 +9,7 @@ import './assets/bootstrap-3.3.7-dist/js/bootstrap.js'
 import layer from 'vue-layer'
 import 'ztree'
 import 'ztree/css/metroStyle/metroStyle.css'
+import qs from 'qs'
 Vue.prototype.$layer = layer(Vue);
 
 Vue.config.productionTip = false

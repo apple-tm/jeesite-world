@@ -40,7 +40,7 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_name, password, user_code, phone, role_id, dept_code, parent_dept_code, 
+    id as juid, user_name, password, user_code, phone, role_id, dept_code, parent_dept_code,
     status, create_by, create_time, update_by, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -224,8 +224,9 @@
     where ju.phone = #{phone} and ju.status=${1}
   </select>
   <select id="pageQuery" resultType="java.util.List" resultMap="BaseResultMap">
-    select * from js03_user
+    select <include refid="Base_Column_List" /> from js03_user
     where status = ${1}
+
     limit #{offset},#{number}
   </select>
   <select id="queryUserNum" resultType="int">
@@ -251,5 +252,16 @@
     and status = ${1}
   </select>
 
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into js03_user
+    (user_name, password, user_code, phone, role_id, dept_code, parent_dept_code,
+    status, create_by, create_time, update_by, update_time) VALUES
+    <foreach collection="list" separator="," item="item" index="index">
+      (#{item.userName}, #{item.password}, #{item.userCode}, #{item.phone}, #{item.roleId},
+      #{item.deptCode},#{item.parentDeptCode}, #{item.status}, #{item.createBy}, #{item.createTime},
+      #{item.updateBy}, #{item.updateTime})
+    </foreach>
+
+  </insert>
 
 </mapper>

@@ -16,6 +16,11 @@ public class ResultVo<T>{
         this.respMsg = msg;
     }
 
+    public void needLogin(){
+        this.respCode = "99";
+        this.respMsg = "需要登录";
+    }
+
     public String getRespCode() {
         return respCode;
     }

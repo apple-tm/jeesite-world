@@ -39,7 +39,15 @@ public class Js03RoleController {
     }
 
     @PostMapping("/fuzzy")
-    public PageVo fuzzyQuery(@RequestBody PageDTO pageDTO){
-        return js03RoleService.fuzzyQuery(pageDTO);
+    public ResultVo fuzzyQuery(@RequestBody PageDTO pageDTO){
+        PageVo pageVo = js03RoleService.fuzzyQuery(pageDTO);
+        ResultVo resultVo = new ResultVo();
+        if (pageVo.getListBody() != null) {
+            resultVo.setBody(pageVo);
+            resultVo.success();
+        } else {
+            resultVo.fail("没有相似角色");
+        }
+        return resultVo;
     }
 }

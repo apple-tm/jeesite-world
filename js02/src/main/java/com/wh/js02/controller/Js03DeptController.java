@@ -35,7 +35,16 @@ public class Js03DeptController {
     }
 
     @PostMapping("/fuzzyQuery")
-    public PageVo fuzzyQuery(@RequestBody PageDTO pageDTO){
-        return js03DeptService.fuzzyQuery(pageDTO);
+    public ResultVo fuzzyQuery(@RequestBody PageDTO pageDTO){
+        ResultVo resultVo = new ResultVo();
+        PageVo pageVo = js03DeptService.fuzzyQuery(pageDTO);
+        if (pageVo.getListBody() != null){
+            resultVo.setBody(pageVo);
+            resultVo.success();
+        } else {
+            resultVo.fail("没有相似机构");
+        }
+        return resultVo;
+
     }
 }

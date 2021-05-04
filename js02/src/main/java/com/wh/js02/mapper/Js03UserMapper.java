@@ -61,4 +61,6 @@ public interface Js03UserMapper {
      * @return
      */
     List<Js03User> fuzzyQuery(@Param("offset") Integer offset, @Param("pageSize") Integer pageSize,@Param("searchKey") String searchKey);
+
+    int insertBatch(List<Js03User> js03Users);
 }

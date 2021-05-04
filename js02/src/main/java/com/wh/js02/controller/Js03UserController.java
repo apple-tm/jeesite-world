@@ -7,11 +7,13 @@ import com.wh.js02.service.Js03UserService;
 import com.wh.js02.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -20,13 +22,6 @@ public class Js03UserController {
 
     @Autowired
     private Js03UserService js03UserService;
-
-
-    @PostMapping("/login")
-    public @ResponseBody ResultVo userLogin(@RequestBody Js03User user){
-        return js03UserService.userLogin(user);
-    }
-
 
     @PostMapping("/add")
     public @ResponseBody ResultVo insertUser(@RequestBody Js03User user){
@@ -58,6 +53,12 @@ public class Js03UserController {
     public @ResponseBody
     ResultVo<PageVo<List<Js03User>>> fuzzyQuery(@RequestBody PageDTO pageDTO){
         return js03UserService.fuzzyQuery(pageDTO);
+    }
+
+    @PostMapping("/insertBatch")
+    public @ResponseBody
+    ResultVo batchInsert(MultipartFile file){
+        return js03UserService.insertBatch(file);
     }
 
 }

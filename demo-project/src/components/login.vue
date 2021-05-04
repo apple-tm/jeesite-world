@@ -27,12 +27,14 @@
 
 <script>
   import axios from 'axios'
+  import $ from 'jquery'
+
   export default {
     data () {
 
       return {
-        userPhone: null,
-        userPassword: null,
+        userPhone: "13281035058",
+        userPassword: "1",
         userMenus: []
       }
     },
@@ -47,16 +49,38 @@
           return;
         }
 
-        axios.post('api/user/login',{phone:_this.$data.userPhone,password: _this.$data.userPassword})
-          .then(function (result) {
-            if (result.data.respCode=='0') {
-              localStorage.setItem("userInfo",JSON.stringify(result.data.body))
+//        axios.post('/api/user/login',{phone:_this.$data.userPhone,password: _this.$data.userPassword})
+//          .then(function (result) {
+//            if (result.data.respCode=='0') {
+//                localStorage.setItem("userInfo",JSON.stringify(result.data.body))
+//              _this.$router.push({path:'/home'});
+//            } else {
+//              alert(result.data.respMsg);
+//            }
+//          });
 
+        $.ajax({
+          type : "POST", //请求方式
+          async: false, // fasle表示同步请求，true表示异步请求
+          contentType: "application/json;charset=UTF-8", //请求的媒体类型
+          url : "/api/user/login",//请求地址
+          data : JSON.stringify({phone:_this.$data.userPhone,password: _this.$data.userPassword}), //数据，json字符串
+          success : function(result) { //请求成功
+            if (result.respCode=='0') {
+              localStorage.setItem("userInfo",JSON.stringify(result.body))
               _this.$router.push({path:'/home'});
             } else {
-              alert(result.data.respMsg);
+              alert(result.respMsg);
             }
-          });
+          },
+          error : function(e){  //请求失败，包含具体的错误信息
+
+
+            console.log(e.status);
+            console.log(e.responseText);
+          }
+        });
+
 
       }
     }

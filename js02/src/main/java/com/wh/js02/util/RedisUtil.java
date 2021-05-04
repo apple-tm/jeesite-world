@@ -73,4 +73,8 @@ public class RedisUtil {
     public Long removeBatch(Set<String> set) {
         return redisTemplate.delete(set);
     }
+
+    public void expire(String key, Long time, TimeUnit timeUnit) {
+        redisTemplate.expire(key, time, timeUnit);
+    }
 }

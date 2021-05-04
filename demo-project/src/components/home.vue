@@ -1,11 +1,9 @@
 <template>
 
-  <div class="container">
+  <div class="container" @mousemove="lastTimeEvent">
     <div class="row clearfix">
       <!--导航栏-->
-      <div>
 
-      </div>
       <div class="col-md-3 column">
         <ul class="nav nav-pills nav-stacked">
           <li v-show="isShowHome" @click="showModel('home')">首页</li>
@@ -20,6 +18,71 @@
       <!--首页-->
       <div id="homeModel"  v-show="isShowHomeModel" class="col-md-9 column">
 
+
+        <form class="form-inline" role="form">
+          <div class="form-group">
+          <label class="sr-only" for="name">名称</label>
+          <input v-model="searchKey" type="text" class="form-control"  placeholder="请输入关键字">
+          <button @click="fuzzyQueryPic()" type="button" class="btn btn-default">查询</button>
+          </div>
+          <input  ref="picture" name="picture" class="form-group" type="file"/>
+          <button @click="uploadPicture()">图片上传</button>
+        </form>
+
+        <table class="table table-hover">
+          <thead><tr>
+            <th>id</th>
+            <th>图片名</th>
+            <th>图片</th>
+            <th>操作</th>
+          </tr></thead>
+          <tbody><tr v-for="file in files">
+            <td>{{file.fileId}}</td>
+            <td>{{file.fileName}}</td>
+            <td><img :src="file.fileUrl"/></td>
+            <td>
+              <button @click="editFileAction(file)">编辑</button> <button @click="deleteFileAction(file)">删除</button>
+            </td>
+          </tr>
+          <tr>
+            <paging
+              :page-index="currentPage"
+              :total="count"
+              :page-size="pageSize"
+              @change="pageChange">
+            </paging>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <!--图片删除提示框-->
+      <div v-show="isShowDeletePictureModel" class="Tips">
+        <div class="TipsFrame"><!--弹出框外框-->
+          <h2>删除图片</h2>
+          <div class="TipsMain"><!--弹出框内部-->
+            <p>确定删除图片？</p>
+            <button id="deletePicture_yes" v-on:click="deletePictureSubmit">确定</button> <button v-on:click="deletePictureCancel">取消</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="editHomeModel"  v-show="isShowEditHomeModel" class="col-md-9 column">
+        <form role="form" class="form-inline">
+          <div class="form-group">
+            <label>图片id：</label>
+            <input type="text" class="form-control" v-model="editFileModel.fileId" disabled="disabled">
+            <label>图片名：</label>
+            <input type="text" class="form-control" v-model="editFileModel.fileName" disabled="disabled">
+            <label>当前图片：</label>
+            <img :src="editFileModel.fileUrl"/>
+            <label>修改图片</label>
+            <input type="file" class="form-control" ref="editPicture"  />
+          </div>
+          <button v-on:click="editFileSubmit()" type="button">提交</button>
+        </form>
       </div>
 
 
@@ -32,6 +95,9 @@
           </div>
           <button @click="fuzzyQuery()" type="button" class="btn btn-default">查询</button>
           <button @click="showModel('addUser')" type="button" class="btn btn-default">新增</button>
+          <input ref="file" name="file" class="form-group" type="file"><button @click="uploadFile()">上传文件</button>
+
+
         </form>
 
         <table class="table table-hover">
@@ -174,7 +240,7 @@
             <label for="menuModel"></label>
 
             <label  v-for="menu in editRoleModelJs03MenuList">
-              <input v-model="editRoleModel.js03MenuList" :value="menu" type="checkbox" name="permissionMenu" >{{menu.menuName}} &nbsp;
+              <input v-model="curRoleMenuList" :value="menu.permissionValue" type="checkbox" />{{menu.menuName}} &nbsp;
             </label>
           </div>
           <button v-on:click="editRoleSubmit" type="button">提交</button>
@@ -353,7 +419,6 @@
         </div>
       </div>
 
-
     </div>
   </div>
 </template>
@@ -361,17 +426,38 @@
 <script>
   import axios from 'axios'
   import layer from 'vue-layer'
+//  import qs from 'qs'
+  import Paging from './paging'
+  import $ from 'jquery'
+
+
 
   export default {
+    components : {
+      Paging
+    },
     data () {
       return {
+        pageSize: 1, //每页显示20条数据
+        currentPage: 1, //当前页码
+        count: 300, //总记录数
+
+        value:' ',
         token: null,
         parentMessage: "我是来自父组件的消息",
         editRoleModelJs03MenuList:[],
 
+        /*登录的用户id*/
+        userId:JSON.parse(localStorage.getItem("userInfo")).id,
+
+        deleteFileModel:{},
+        editFileModel:{},
+        excelFile:{},
+
         addMenuModel:{},
         addRoleModel:{"roleName":null,"roleCode":null,"js03MenuList":[]},
-        editRoleModel:{"id":null,"roleName":null,"roleCode":null,"js03MenuList":[]},
+        editRoleModel:{},
+
         editMenuModel:{},
         addDeptModel:{},
         editDeptModel: {},
@@ -390,6 +476,9 @@
         isShowMenu:false,
 
         isShowHomeModel: true,
+        isShowEditHomeModel:false,
+        isShowDeletePictureModel:false,
+
 
         isShowUserModel: false,
         isShowAddUserModel: false,
@@ -414,24 +503,188 @@
         selectedMenu: [],
         roles: [],
 
+        files:[],
         menus: [],
         depts: [],
         users: [],
-
+        curRoleMenuList: [],
         showMenu: [],
+
+        lastTime: new Date().getTime(),
+        timer: '',
+        timeout: 30 * 60 * 1000
       }
     },
 
 
     mounted() {
       this.userAllowMenus()
+      this.queryHome()
+      this.queryMenu()
       /*this.queryUsers()
       this.queryRole()
       this.queryDept()
       this.queryMenu()*/
+      this.timer = setInterval(this.timeLogout, 1000)
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
     },
     methods: {
 
+      /*设置登录后，30分钟无操作，跳转登录页面，当前时间戳减去最后鼠标移动的时间大于30分钟，跳转*/
+      timeLogout() {
+        if (new Date().getTime() - this.$data.lastTime > this.$data.timeout) {
+          this.$router.push({path:'/'});
+        }
+      },
+      lastTimeEvent() {
+        this.$data.lastTime = new Date().getTime(); //更新操作时间
+      },
+
+      //从page组件传递过来的当前page
+      pageChange (page) {
+        this.currentPage = page
+        this.queryHome()
+      },
+
+      /*模糊查询图片*/
+      fuzzyQueryPic(){
+        let _this = this
+        axios.post("/api/image/fuzzyQuery",{pageNo:1,pageSize: 10,userId: _this.$data.userId,searchKey:_this.$data.searchKey},
+          {headers: {"token":JSON.parse(localStorage.getItem("userInfo")).token}})
+          .then(function (result) {
+            if (result.data.respCode === "0"){
+              _this.$data.files = result.data.body.listBody
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
+            }
+          })
+      },
+
+      /*首页图片删除提交*/
+      deletePictureSubmit(){
+        let _this = this
+        axios.post("/api/image/delete",this.$data.deleteFileModel,
+          {headers:{"token":JSON.parse(localStorage.getItem("userInfo")).token}})
+          .then(function (result) {
+            if (result.data.respCode === "0") {
+              _this.showModel("home")
+            } else if (result.data.respCode === "99") {
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
+            }
+          })
+      },
+
+      /*首页图片删除取消*/
+      deletePictureCancel() {
+        this.$data.isShowDeletePictureModel = false
+        this.showModel("home")
+      },
+
+      /*首页图片删除开始*/
+      deleteFileAction(file) {
+        this.$data.deleteFileModel = file
+        this.showModel("deleteFile")
+      },
+
+      /*首页图片编辑开始*/
+      editFileAction(file) {
+        let _this = this
+        _this.$data.editFileModel = file
+        _this.showModel("editFile")
+      },
+
+      /*首页图片编辑提交*/
+      editFileSubmit() {
+        let _this = this
+        let formData = new FormData();
+        formData.append('picName',this.$refs.editPicture.files[0]);
+        formData.append("oldPic",JSON.stringify(this.$data.editFileModel))
+          axios.post("/api/image/update",formData,
+          {headers: {"token": JSON.parse(localStorage.getItem("userInfo")).token}})
+        .then(function (result) {
+          if (result.data.respCode==='0') {
+            _this.showModel("home")
+          } else if (result.data.respCode==='99') {
+            alert(result.data.respMsg)
+            _this.$router.push({path:'/'})
+          } else {
+            alert(result.data.respMsg)
+          }
+        })
+      },
+
+      /*首页*/
+      queryHome() {
+        let _this = this;
+//        axios.post('/api/file/pageQuery',{pageNo: _this.$data.currentPage,pageSize: _this.$data.pageSize,
+//          userId:_this.$data.userId
+//          },
+//          {headers: {"token": JSON.parse(localStorage.getItem("userInfo")).token}})
+//          .then(function (result) {
+//            if (result.data.respCode==='0') {
+//              _this.$data.files=result.data.body.listBody
+//              _this.$data.count = result.data.body.total
+//            }else if(result.data.respCode=='99') {
+//              _this.$router.push({path:'/'});
+//            } else {
+//              alert((result.data.respMsg))
+//            }
+//          })
+
+        $.ajax({
+          type : "POST", //请求方式
+          async: false, // fasle表示同步请求，true表示异步请求
+          contentType: "application/json;charset=UTF-8", //请求的媒体类型
+          url : "/api/file/pageQuery",//请求地址
+          data : JSON.stringify({pageNo: _this.$data.currentPage,pageSize: _this.$data.pageSize, userId:_this.$data.userId}), //数据，json字符串
+          headers: {"token": JSON.parse(localStorage.getItem("userInfo")).token},
+          success : function(result) { //请求成功
+            if (result.respCode==='0') {
+              _this.$data.files=result.body.listBody
+              _this.$data.count = result.body.total
+            }else if(result.respCode=='99') {
+              alert(result.data.respMsg)
+              _this.$router.push({path:'/'});
+            } else {
+              alert((result.data.respMsg))
+            }
+          },
+          error : function(e){  //请求失败，包含具体的错误信息
+            console.log(e.status);
+            console.log(e.responseText);
+          }
+        });
+      },
+      /*首页图片上传*/
+      uploadPicture(){
+        let _this = this;
+        let formData = new FormData();
+        formData.append('picName',this.$refs.picture.files[0])
+
+        axios.post('/api/image/upload',formData,
+          {headers: {"token": JSON.parse(localStorage.getItem("userInfo")).token}})
+          .then(function (result) {
+            if (result.data.respCode ==='0') {
+              _this.showModel("home")
+            } else if (result.data.respCode === '99') {
+              alert(result.data.respMsg)
+              _this.$router.push({path:'/'})
+            }
+            else {
+              alert((result.data.respMsg))
+            }
+        })
+      },
+
+      /*登录时，loclstarage存储userInfo，根据该用户菜单集合，显示对应菜单*/
       userAllowMenus(){
         let userMenus = JSON.parse(localStorage.getItem("userInfo")).js03Role.js03MenuList
         let _this = this
@@ -454,6 +707,8 @@
 
       showModel(model) {
         this.$data.isShowHomeModel = false
+        this.$data.isShowEditHomeModel = false
+        this.$data.isShowDeletePictureModel = false
 
         this.$data.isShowUserModel = false
         this.$data.isShowAddUserModel = false
@@ -461,25 +716,23 @@
         this.$data.isShowDeleteUserModel = false
 
         this.$data.isShowRoleModel = false
+        this.$data.isShowAddRoleModel=false
         this.$data.isShowEditRoleModel = false
         this.$data.isShowDeleteRoleModel = false
-        this.$data.isShowAddRoleModel=false
 
-
-        this.$data.isShowEditDeptModel = false
         this.$data.isShowDeptModel = false
         this.$data.isShowAddDeptModel=false
+        this.$data.isShowEditDeptModel = false
         this.$data.isShowDeleteDeptModel=false
 
         this.$data.isShowMenuModel = false
+        this.$data.isShowAddMenuModel=false
         this.$data.isShowEditMenuModel = false
         this.$data.isShowDeleteMenuModel = false
-        this.$data.isShowAddMenuModel=false
-
 
         if (model === "home") {
+          this.queryHome()
           this.$data.isShowHomeModel = true
-
         } else if (model === "userManager") {
           this.queryUsers()
           this.$data.isShowUserModel = true
@@ -516,112 +769,168 @@
           this.$data.isShowAddRoleModel=true
         } else if (model === "addMenu"){
           this.$data.isShowAddMenuModel=true
+        } else if (model === "home"){
+          this.$data.isShowHomerModel = true
+        } else if (model === "editFile"){
+          this.$data.isShowEditHomeModel = true
+        } else if (model === "deleteFile"){
+          this.$data.isShowDeletePictureModel = true
         }
       },
 
+      /*菜单删除取消*/
       deleteMenuCancel(){
         let _this = this
         this.$data.isShowDeleteMenuModel = false
         _this.showModel("menuManager")
       },
+      /*菜单删除提交*/
       deleteMenuSubmit(){
         var _this = this
-        axios.post("api/menu/delete", _this.$data.editMenuModel)
+        axios.post("api/menu/delete", _this.$data.editMenuModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0") {
               _this.queryMenu()
               _this.showModel("menuManager")
+            }else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
           })
       },
+      /*菜单删除开始*/
       deleteMenuAction(menu){
         let _this = this
         _this.$data.editMenuModel = menu
         _this.showModel("deleteMenu")
       },
+      /*菜单编辑提交*/
       editMenuSubmit(){
         let _this = this
-        axios.post("api/menu/update",_this.$data.editMenuModel)
+        axios.post("api/menu/update",_this.$data.editMenuModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0"){
               _this.showModel("menuManager")
+            }else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
           })
       },
+      /*菜单编辑开始*/
       editMenuAction(menu){
         let _this = this
         _this.$data.editMenuModel = menu
         _this.showModel("editMenu")
       },
+      /*菜单模糊查询*/
       fuzzyQueryMenu(){
         let _this = this
-        axios.post("api/menu/fuzzy",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey})
+        axios.post("api/menu/fuzzy",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
-            _this.$data.menus = result.data.body
+            if (result.data.respCode === "0"){
+              _this.$data.menus = result.data.body
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
+            }
       });
   },
+      /*菜单查询*/
       queryMenu() {
         let _this = this;
-        axios.post('/api/menu/select',{pageNo: 1,pageSize: 10})
+        axios.post('/api/menu/select',{pageNo: 1,pageSize: 10},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode==='0') {
               _this.$data.menus=result.data.body
-            }else {
-              alert((result.data.respMsg))
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
             }
           })
       },
-
-
-
-
       /*菜单新增提交*/
       addMenuSubmit (){
         let _this = this;
-        axios.post('api/menu/insert',_this.$data.addMenuModel)
+        axios.post('api/menu/insert',_this.$data.addMenuModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode == "0"){
-              _this.queryMenu()
               _this.showModel("menuManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert("新增菜单失败")
+              alert(result.data.respMsg)
             }
           });
       },
+
       /*角色新增提交*/
       addRoleSubmit (){
         let _this = this;
-        axios.post('api/role/insert',_this.$data.addRoleModel)
+        axios.post('api/role/insert',_this.$data.addRoleModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode == "0"){
-              _this.queryRole()
               _this.showModel("roleManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert("新增角色失败")
+              alert(result.data.respMsg)
             }
           });
       },
       /*角色模糊查询*/
       fuzzyQueryRole(){
         let _this = this
-        axios.post("api/role/fuzzy",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey})
+        axios.post("api/role/fuzzy",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
-            _this.$data.roles = result.data.listBody
+            if (result.data.respCode === "0") {
+              _this.$data.roles = result.data.body.listBody
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
+            }
           });
       },
       /*角色查询*/
       queryRole() {
         let _this = this;
-        axios.post('api/role/query',{pageNo: 1,pageSize: 10})
+        axios.post('api/role/query',{pageNo: 1,pageSize: 10},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode=='0') {
               _this.$data.roles = result.data.body
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert(result.data.respMsg);
+              alert(result.data.respMsg)
             }
           });
       },
@@ -634,17 +943,21 @@
       /*角色删除提交*/
       deleteRoleSubmit(){
         var _this = this
-        axios.post("api/role/delete", _this.$data.editRoleModel)
+        axios.post("api/role/delete", _this.$data.editRoleModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0") {
-              _this.queryRole()
               _this.showModel("roleManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
           })
       },
-      /*角色删除，弹出*/
+      /*角色删除弹出*/
       deleteRole(role){
         let _this = this
         _this.showModel("deleteRole")
@@ -657,10 +970,15 @@
       /*角色编辑提交*/
       editRoleSubmit(){
         let _this=this
-        axios.post("api/role/update",_this.$data.editRoleModel)
+        axios.post("api/role/update",_this.$data.editRoleModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0"){
               _this.showModel("roleManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
@@ -670,9 +988,14 @@
       editRoleAction(role){
         let _this=this
         _this.showModel("editRole")
-        _this.$data.editRoleModel.roleName = role.roleName
-        _this.$data.editRoleModel.roleCode = role.roleCode
-        _this.$data.editRoleModel.id = role.id
+        var roleMenu = [];
+        for (var i=0; i<role.js03MenuList.length; i++) {
+          roleMenu[i] = role.js03MenuList[i].permissionValue
+        }
+        console.log("roleMenu:"+JSON.stringify(role))
+        _this.$data.curRoleMenuList = roleMenu
+        _this.$data.editRoleModel = role
+
         _this.$data.editRoleModelJs03MenuList = _this.$data.menus
       },
 
@@ -680,37 +1003,55 @@
       /*机构新增提交*/
       addDeptSubmit (){
         let _this = this;
-        axios.post('api/dept/insert',_this.$data.addDeptModel)
+        axios.post('api/dept/insert',_this.$data.addDeptModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode == "0"){
-              _this.queryDept()
               _this.showModel("deptManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert("新增机构失败")
+              alert(result.data.respMsg)
             }
           });
       },
       /*机构模糊查询*/
       fuzzyQueryDept(){
         let _this = this
-        axios.post("api/dept/fuzzyQuery",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey})
+        axios.post("api/dept/fuzzyQuery",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
-            _this.$data.depts = result.data.listBody
+            if (result.data.respCode === "0") {
+              _this.$data.depts = result.data.body.listBody
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
+            }
           });
       },
       /*机构编辑提交*/
       editDeptSubmit(){
         let _this=this
-        axios.post("api/dept/update",_this.$data.editDeptModel)
+        axios.post("api/dept/update",_this.$data.editDeptModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0"){
               _this.showModel("deptManager")
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
           })
       },
-      /*机构删除，弹出*/
+      /*机构删除弹出*/
       deleteDept(dept){
         let _this = this
         _this.showModel("deleteDept")
@@ -720,11 +1061,16 @@
       /*机构删除提交*/
       deleteDeptSubmit(){
         var _this = this
-        axios.post("api/dept/delete", _this.$data.editDeptModel)
+        axios.post("api/dept/delete", _this.$data.editDeptModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0") {
               _this.queryDept()
               _this.showModel("deptManager")
+            }  else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
@@ -733,12 +1079,17 @@
       /*机构查询*/
       queryDept() {
         let _this = this;
-        axios.post('/api/dept/query',{pageNo: 1,pageSize: 10})
+        axios.post('/api/dept/query',{pageNo: 1,pageSize: 10},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode==='0') {
-              _this.$data.depts=result.data.body
-            }else {
-              alert((result.data.respMsg))
+              _this.$data.depts = result.data.body
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
+            } else {
+              alert(result.data.respMsg)
             }
           })
       },
@@ -759,36 +1110,69 @@
       /*用户查询*/
       queryUsers() {
         let _this = this;
-        axios.post('api/user/pageQuery',{pageNo: 1,pageSize: 10})
+        axios.post('api/user/pageQuery',{pageNo: 1,pageSize: 10},
+          {headers: {"token": JSON.parse(localStorage.getItem("userInfo")).token}})
           .then(function (result) {
             if (result.data.respCode=='0') {
               _this.$data.users = result.data.body.listBody
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert(result.data.respMsg);
+              alert(result.data.respMsg)
             }
           });
       },
       /*用户模糊查询*/
       fuzzyQuery(){
         let _this = this
-        axios.post("api/user/fuzzyQuery",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey})
+        axios.post("api/user/fuzzyQuery",{pageNo:1,pageSize: 10,searchKey:_this.$data.searchKey},
+          {headers:{"token":JSON.parse(localStorage.getItem("userInfo")).token}}
+        )
+
           .then(function (result) {
               if (result.data.respCode=='0') {
                 _this.$data.users = result.data.body.listBody
+              }  else if (result.data.respCode === "99"){
+                alert(result.data.respMsg)
+                _this.$router.push({path: '/'})
               } else {
-                alert(result.data.respMsg);
+                alert(result.data.respMsg)
               }
             });
+      },
+      //Excel上传（批量新增用户）
+      uploadFile(){
+        let _this = this
+        let formData = new FormData();
+        formData.append('file',this.$refs.file.files[0])
+
+        axios.post('/api/user/insertBatch',formData,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }}).then(function (result) {
+          if (result.data.respCode === "0") {
+            _this.showModel("userManager")
+          }else if (result.data.respCode === "99"){
+            alert(result.data.respMsg)
+            _this.$router.push({path: '/'})
+          }
+        })
       },
       /*用户新增*/
       addUser (){
         let _this = this;
-        axios.post('api/user/add',{userName:_this.$data.userName, password: _this.$data.password, userCode: _this.$data.userCode, phone: _this.$data.phone})
+        axios.post('api/user/add',{userName:_this.$data.userName, password: _this.$data.password, userCode: _this.$data.userCode, phone: _this.$data.phone},{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode == "0"){
               _this.showModel("userManager")
-            } else {
-              alert("新增用户失败")
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path:"/"})
+            }
+            else {
+              alert(result.data.respMsg)
             }
           });
       },
@@ -801,11 +1185,15 @@
       /*用户删除提交*/
       deleteUserSubmit(){
         var _this = this
-        axios.post("api/user/delete", _this.$data.editUserModel)
+        axios.post("api/user/delete", _this.$data.editUserModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0") {
-              _this.queryUsers()
               _this.showModel("userManager")
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
               alert(result.data.respMsg)
             }
@@ -820,27 +1208,26 @@
       /*用户编辑提交*/
       editUserSubmit() {
         var _this = this
-        axios.post("api/user/update", _this.$data.editUserModel)
+        axios.post("api/user/update", _this.$data.editUserModel,{headers:{
+          "token": JSON.parse(localStorage.getItem("userInfo")).token
+        }})
           .then(function (result) {
             if (result.data.respCode === "0") {
               _this.showModel("userManager")
+            } else if (result.data.respCode === "99"){
+              alert(result.data.respMsg)
+              _this.$router.push({path: '/'})
             } else {
-              alert(result.data.resMsg)
+              alert(result.data.respMsg)
             }
           })
       },
-      /*用户编辑弹出、绑定*/
+      /*用户编辑开始*/
       editUserAction(user) {
         let _this = this
         _this.showModel("editUser")
         _this.$data.editUserModel = user
-//        _this.$data.userName=user.userName
-//        _this.$data.password=user.password
-//        _this.$data.userCode=user.userCode
-//        _this.$data.phone=user.phone
       }
-
-
     }
   }
 </script>
@@ -893,6 +1280,13 @@
 
   .TipsMain a:hover,.TipsMain a:active {
     background: gray;
+  }
+
+  img{
+    width: 150px;
+
+    height: 100px;
+
   }
 
 </style>
