@@ -6,15 +6,23 @@
 
       <div class="col-md-3 column">
         <ul class="nav nav-pills nav-stacked">
+          <!--<li v-for="menu in userMenus" v-show="menu.id" @click="showModel(menu)">{{menu.menuName}}</li>-->
           <li v-show="isShowHome" @click="showModel('home')">首页</li>
           <li v-show="isShowUser" @click="showModel('userManager')">用户管理</li>
           <li v-show="isShowRole" @click="showModel('roleManager')">角色管理</li>
           <li v-show="isShowDept" @click="showModel('deptManager')">机构管理</li>
           <li v-show="isShowMenu" @click="showModel('menuManager')">菜单管理</li>
+          <li v-show="isShowLog" @click="showModel('log')">日志管理</li>
+
         </ul>
       </div>
 
-
+      <log ref="log"
+        :page-index="currentPage"
+           :total="count"
+           :page-size="pageSize"
+           :showlog="isShowLogModel"
+           @change="pageChange"></log>
       <!--首页-->
       <div id="homeModel"  v-show="isShowHomeModel" class="col-md-9 column">
 
@@ -428,13 +436,15 @@
   import layer from 'vue-layer'
 //  import qs from 'qs'
   import Paging from './paging'
+  import Log from './log'
   import $ from 'jquery'
 
 
 
   export default {
     components : {
-      Paging
+      Paging,
+      Log
     },
     data () {
       return {
@@ -474,6 +484,7 @@
         isShowRole:false,
         isShowDept:false,
         isShowMenu:false,
+        isShowLog: false,
 
         isShowHomeModel: true,
         isShowEditHomeModel:false,
@@ -500,6 +511,8 @@
         isShowDeleteMenuModel: false,
         isShowAddMenuModel:false,
 
+        isShowLogModel: false,
+
         selectedMenu: [],
         roles: [],
 
@@ -509,7 +522,7 @@
         users: [],
         curRoleMenuList: [],
         showMenu: [],
-
+        userMenus: [],
         lastTime: new Date().getTime(),
         timer: '',
         timeout: 30 * 60 * 1000
@@ -684,9 +697,10 @@
         })
       },
 
-      /*登录时，loclstarage存储userInfo，根据该用户菜单集合，显示对应菜单*/
+      /*用户允许，登录时，loclstarage存储userInfo，根据该用户菜单集合，显示对应菜单*/
       userAllowMenus(){
         let userMenus = JSON.parse(localStorage.getItem("userInfo")).js03Role.js03MenuList
+//        this.$data.userMenus = userMenus
         let _this = this
 
         for(let i = 0;i < userMenus.length; i++){
@@ -700,12 +714,15 @@
             _this.$data.isShowDept = true
           } else if (userMenus[i].menuName === '菜单管理'){
             _this.$data.isShowMenu = true
+          } else if (userMenus[i].menuName == '日志管理') {
+            _this.$data.isShowLog = true
           }
         }
 
       },
 
       showModel(model) {
+
         this.$data.isShowHomeModel = false
         this.$data.isShowEditHomeModel = false
         this.$data.isShowDeletePictureModel = false
@@ -729,6 +746,9 @@
         this.$data.isShowAddMenuModel=false
         this.$data.isShowEditMenuModel = false
         this.$data.isShowDeleteMenuModel = false
+
+        this.$data.isShowLogModel = false
+        this.$refs.log.isShowDeleteLogModel = false
 
         if (model === "home") {
           this.queryHome()
@@ -775,6 +795,9 @@
           this.$data.isShowEditHomeModel = true
         } else if (model === "deleteFile"){
           this.$data.isShowDeletePictureModel = true
+        } else if (model === "log") {
+          this.$refs.log.queryLog()
+          this.$data.isShowLogModel = true
         }
       },
 
@@ -970,6 +993,17 @@
       /*角色编辑提交*/
       editRoleSubmit(){
         let _this=this
+        let checkedMenus = [];
+        for (var i=0; i<_this.$data.menus.length; i++) {
+          for (var j=0; j<_this.$data.curRoleMenuList.length; j++) {
+            if (_this.$data.menus[i].permissionValue == _this.$data.curRoleMenuList[j]) {
+              checkedMenus.push(_this.$data.menus[i])
+              break
+            }
+          }
+        }
+        _this.$data.editRoleModel.js03MenuList = checkedMenus
+
         axios.post("api/role/update",_this.$data.editRoleModel,{headers:{
           "token": JSON.parse(localStorage.getItem("userInfo")).token
         }})

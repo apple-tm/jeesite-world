@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.js02.mapper.Js03LogMapper">
+  <resultMap id="BaseResultMap" type="com.wh.js02.entity.Js03Log">
+    <id column="log_id" jdbcType="INTEGER" property="logId" />
+    <result column="log_notes" jdbcType="VARCHAR" property="logNotes"/>
+    <result column="log_action" jdbcType="VARCHAR" property="logAction" />
+    <result column="log_user_id" jdbcType="INTEGER" property="logUserId" />
+    <result column="log_user_ip" jdbcType="VARCHAR" property="logUserIp" />
+    <result column="log_user_name" jdbcType="VARCHAR" property="logUserName" />
+    <result column="log_context_path" jdbcType="VARCHAR" property="logContextPath" />
+    <result column="log_user_role_id" jdbcType="VARCHAR" property="logUserRoleId" />
+    <result column="log_run_time" jdbcType="INTEGER" property="logRunTime" />
+    <result column="log_b_name" jdbcType="VARCHAR" property="logBName" />
+    <result column="log_os_name" jdbcType="VARCHAR" property="logOsName" />
+    <result column="log_user_role_name" jdbcType="VARCHAR" property="logUserRoleName" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <insert id="insertLog" parameterType="com.wh.js02.entity.Js03Log">
+    insert into js03_log
+    (log_notes, log_action, log_user_id, log_user_ip, log_user_name,
+     log_context_path, log_user_role_id, log_run_time, log_b_name,
+      log_os_name, log_user_role_name, status, create_by, create_time,
+      update_by, update_time)
+    VALUES (#{logNotes}, #{logAction}, #{logUserId}, #{logUserIp}, #{logUserName},
+     #{logContextPath}, #{logUserRoleId}, #{logRunTime}, #{logBName},
+      #{logOsName}, #{logUserRoleName}, #{status}, #{createBy}, #{createTime},
+      #{updateBy}, #{updateTime})
+  </insert>
+
+  <select id="query" resultType="java.util.List" resultMap="BaseResultMap">
+    select log_notes, log_action, log_user_id, log_user_ip, log_user_name,
+     log_context_path, log_run_time, log_b_name,
+      log_os_name, log_user_role_name, create_time
+    from js03_log
+    limit #{offset},#{number}
+  </select>
+
+  <select id="fuzzyQuery" resultType="java.util.List" resultMap="BaseResultMap">
+    select log_notes, log_action, log_user_id, log_user_ip, log_user_name,
+     log_context_path, log_run_time, log_b_name,
+      log_os_name, log_user_role_name, create_time
+      from js03_log
+      where log_notes like concat('%',#{searchKey},'%')
+      or log_action like concat('%',#{searchKey},'%')
+      or log_user_name like concat('%',#{searKey},'%')
+      or log_context_path like concat('%',#{searchKey},'%')
+      or log_b_name like concat('%',#{searchKey},'%')
+      or log_os_name like concat('%',#{searchKey},'%')
+      or log_user_role_name like concat('%',#{searchKey},'%')
+  </select>
+  
+  <delete id="deleteById">
+    delete from
+    js03_log
+    where log_id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <select id="total" resultType="int">
+    select count(log_id)
+    from js03_log
+  </select>
+  
+  <select id="totalFuzzy" parameterType="java.lang.String">
+    select count(log_id)
+    from js03_log
+    where log_notes like concat('%',#{searchKey},'%')
+      or log_action like concat('%',#{searchKey},'%')
+      or log_user_name like concat('%',#{searKey},'%')
+      or log_context_path like concat('%',#{searchKey},'%')
+      or log_b_name like concat('%',#{searchKey},'%')
+      or log_os_name like concat('%',#{searchKey},'%')
+      or log_user_role_name like concat('%',#{searchKey},'%')
+  </select>
+
+  
+
+  <sql id="Base_Column_List">
+    log_id, log_action, log_user_id, log_user_ip, log_user_name, log_context_path, log_user_role_id, 
+    log_run_time, log_b_name, log_os_name, log_user_role_name, status, create_by, create_time, 
+    update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from js03_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from js03_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.js02.entity.Js03Log">
+    insert into js03_log (log_id, log_action, log_user_id, 
+      log_user_ip, log_user_name, log_context_path, 
+      log_user_role_id, log_run_time, log_b_name, 
+      log_os_name, log_user_role_name, status, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{logId,jdbcType=INTEGER}, #{logAction,jdbcType=VARCHAR}, #{logUserId,jdbcType=INTEGER}, 
+      #{logUserIp,jdbcType=VARCHAR}, #{logUserName,jdbcType=VARCHAR}, #{logContextPath,jdbcType=VARCHAR}, 
+      #{logUserRoleId,jdbcType=VARCHAR}, #{logRunTime,jdbcType=INTEGER}, #{logBName,jdbcType=VARCHAR}, 
+      #{logOsName,jdbcType=VARCHAR}, #{logUserRoleName,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.js02.entity.Js03Log">
+    insert into js03_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="logAction != null">
+        log_action,
+      </if>
+      <if test="logUserId != null">
+        log_user_id,
+      </if>
+      <if test="logUserIp != null">
+        log_user_ip,
+      </if>
+      <if test="logUserName != null">
+        log_user_name,
+      </if>
+      <if test="logContextPath != null">
+        log_context_path,
+      </if>
+      <if test="logUserRoleId != null">
+        log_user_role_id,
+      </if>
+      <if test="logRunTime != null">
+        log_run_time,
+      </if>
+      <if test="logBName != null">
+        log_b_name,
+      </if>
+      <if test="logOsName != null">
+        log_os_name,
+      </if>
+      <if test="logUserRoleName != null">
+        log_user_role_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="logAction != null">
+        #{logAction,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserId != null">
+        #{logUserId,jdbcType=INTEGER},
+      </if>
+      <if test="logUserIp != null">
+        #{logUserIp,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserName != null">
+        #{logUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="logContextPath != null">
+        #{logContextPath,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserRoleId != null">
+        #{logUserRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="logRunTime != null">
+        #{logRunTime,jdbcType=INTEGER},
+      </if>
+      <if test="logBName != null">
+        #{logBName,jdbcType=VARCHAR},
+      </if>
+      <if test="logOsName != null">
+        #{logOsName,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserRoleName != null">
+        #{logUserRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.js02.entity.Js03Log">
+    update js03_log
+    <set>
+      <if test="logAction != null">
+        log_action = #{logAction,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserId != null">
+        log_user_id = #{logUserId,jdbcType=INTEGER},
+      </if>
+      <if test="logUserIp != null">
+        log_user_ip = #{logUserIp,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserName != null">
+        log_user_name = #{logUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="logContextPath != null">
+        log_context_path = #{logContextPath,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserRoleId != null">
+        log_user_role_id = #{logUserRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="logRunTime != null">
+        log_run_time = #{logRunTime,jdbcType=INTEGER},
+      </if>
+      <if test="logBName != null">
+        log_b_name = #{logBName,jdbcType=VARCHAR},
+      </if>
+      <if test="logOsName != null">
+        log_os_name = #{logOsName,jdbcType=VARCHAR},
+      </if>
+      <if test="logUserRoleName != null">
+        log_user_role_name = #{logUserRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.js02.entity.Js03Log">
+    update js03_log
+    set log_action = #{logAction,jdbcType=VARCHAR},
+      log_user_id = #{logUserId,jdbcType=INTEGER},
+      log_user_ip = #{logUserIp,jdbcType=VARCHAR},
+      log_user_name = #{logUserName,jdbcType=VARCHAR},
+      log_context_path = #{logContextPath,jdbcType=VARCHAR},
+      log_user_role_id = #{logUserRoleId,jdbcType=VARCHAR},
+      log_run_time = #{logRunTime,jdbcType=INTEGER},
+      log_b_name = #{logBName,jdbcType=VARCHAR},
+      log_os_name = #{logOsName,jdbcType=VARCHAR},
+      log_user_role_name = #{logUserRoleName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>
