@@ -21,6 +21,7 @@
     select * from js03_user_file
     where status = ${1}
     and user_id = #{userId}
+    order by upate_time desc
     limit #{offset},#{number}
   </select>
 
@@ -39,15 +40,23 @@
     and user_id = #{userId}
   </select>
 
-  <select id="fuzzyQuery" parameterType="com.wh.js02.req.PageDTO" resultType="java.util.List" resultMap="BaseResultMap">
+  <select id="fuzzyQuery" resultType="java.util.List" resultMap="BaseResultMap">
     select * from js03_user_file
     where
-    (file_name like concat('%',#{searchKey},'%')
-    or file_type like concat('%', #{searchKey},'%'))
-    and
-    user_id = #{userId} and
-    status = ${1}
-    limit #{offset},#{number}
+    <if test="startTime == null and endTime == null">
+      (file_name like concat('%',#{searchKey},'%')
+      or file_type like concat('%', #{searchKey},'%'))
+      and
+      user_id = #{userId} and
+      status = ${1}
+      limit #{offset},#{number}
+    </if>
+    <if test="startTime != null and endTime != null">
+      create_time between #{startTime} and #{endTime}
+      limit #{offset},#{number}
+    </if>
+
+
   </select>
 
   <update id="updatePicture" parameterType="com.wh.js02.entity.Js03UserFile">

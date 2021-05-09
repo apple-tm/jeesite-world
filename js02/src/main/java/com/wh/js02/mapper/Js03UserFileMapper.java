@@ -4,6 +4,7 @@ import com.wh.js02.entity.Js03UserFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -28,7 +29,7 @@ public interface Js03UserFileMapper {
 
     int deletePicture(Integer id);
 
-    List<Js03UserFile> fuzzyQuery(@Param("offset") int offset, @Param("number") int number, @Param("userId") int userId, @Param("searchKey") String searchKey);
+    List<Js03UserFile> fuzzyQuery(@Param("offset") int offset, @Param("number") int number, @Param("userId") int userId, @Param("searchKey") String searchKey,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
 
     //模糊查询总记录
     int fuzzyQueryFileNum(String searchKey);

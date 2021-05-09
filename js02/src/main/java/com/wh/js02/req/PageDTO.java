@@ -1,5 +1,8 @@
 package com.wh.js02.req;
 
+
+import java.util.Date;
+
 public class PageDTO<T> {
 
     private Integer pageNo;
@@ -9,6 +12,9 @@ public class PageDTO<T> {
     private  String searchKey;
 
     private Integer userId;
+
+    private Date startTime;
+    private Date endTime;
 
     public Integer getUserId() {
         return userId;
@@ -40,5 +46,21 @@ public class PageDTO<T> {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,8 +61,10 @@ public class Js03UserFileServiceImpl implements Js03UserFileService{
         //limit offset pageSize
         int offset = (pageDTO.getPageNo() - 1) * pageDTO.getPageSize();
         int number = pageDTO.getPageSize();
+        Date startTime = pageDTO.getStartTime();
+        Date endTime = pageDTO.getEndTime();
         //当前页图片
-        List<Js03UserFile> js03UserFiles = js03UserFileMapper.fuzzyQuery(offset,number,pageDTO.getUserId(),pageDTO.getSearchKey());
+        List<Js03UserFile> js03UserFiles = js03UserFileMapper.fuzzyQuery(offset,number,pageDTO.getUserId(),pageDTO.getSearchKey(),startTime,endTime);
         //总记录数
         int totalPic = js03UserFileMapper.fuzzyQueryFileNum(pageDTO.getSearchKey());
         //总页数 = 总记录数 / pageSize，向上取整

@@ -21,6 +21,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
+
   <insert id="insertLog" parameterType="com.wh.js02.entity.Js03Log">
     insert into js03_log
     (log_notes, log_action, log_user_id, log_user_ip, log_user_name,
@@ -38,6 +39,7 @@
      log_context_path, log_run_time, log_b_name,
       log_os_name, log_user_role_name, create_time
     from js03_log
+    order by create_time desc
     limit #{offset},#{number}
   </select>
 
@@ -46,13 +48,24 @@
      log_context_path, log_run_time, log_b_name,
       log_os_name, log_user_role_name, create_time
       from js03_log
-      where log_notes like concat('%',#{searchKey},'%')
-      or log_action like concat('%',#{searchKey},'%')
-      or log_user_name like concat('%',#{searKey},'%')
-      or log_context_path like concat('%',#{searchKey},'%')
-      or log_b_name like concat('%',#{searchKey},'%')
-      or log_os_name like concat('%',#{searchKey},'%')
-      or log_user_role_name like concat('%',#{searchKey},'%')
+      where
+      <if test="startTime == null and endTime == null">
+        log_notes like concat('%',#{searchKey},'%')
+        or log_action like concat('%',#{searchKey},'%')
+        or log_user_name like concat('%',#{searchKey},'%')
+        or log_context_path like concat('%',#{searchKey},'%')
+        or log_b_name like concat('%',#{searchKey},'%')
+        or log_os_name like concat('%',#{searchKey},'%')
+        or log_user_role_name like concat('%',#{searchKey},'%')
+        order by create_time desc
+        limit #{offset},#{number}
+      </if>
+      <if test="startTime != null and endTime != null">
+        create_time between #{startTime} and #{endTime}
+        order by create_time DESC
+        limit #{offset},#{number}
+      </if>
+
   </select>
   
   <delete id="deleteById">
@@ -64,18 +77,28 @@
   <select id="total" resultType="int">
     select count(log_id)
     from js03_log
+
+
   </select>
   
-  <select id="totalFuzzy" parameterType="java.lang.String">
+  <select id="totalFuzzy" resultType="int">
     select count(log_id)
     from js03_log
-    where log_notes like concat('%',#{searchKey},'%')
-      or log_action like concat('%',#{searchKey},'%')
-      or log_user_name like concat('%',#{searKey},'%')
-      or log_context_path like concat('%',#{searchKey},'%')
-      or log_b_name like concat('%',#{searchKey},'%')
-      or log_os_name like concat('%',#{searchKey},'%')
-      or log_user_role_name like concat('%',#{searchKey},'%')
+    where
+     <if test="searchKey != null">
+       log_notes like concat('%',#{searchKey},'%')
+       or log_action like concat('%',#{searchKey},'%')
+       or log_user_name like concat('%',#{searchKey},'%')
+       or log_context_path like concat('%',#{searchKey},'%')
+       or log_b_name like concat('%',#{searchKey},'%')
+       or log_os_name like concat('%',#{searchKey},'%')
+       or log_user_role_name like concat('%',#{searchKey},'%')
+     </if>
+    <if test="startTime != null">
+     create_time BETWEEN  #{startTime} and #{endTime}
+    </if>
+
+
   </select>
 
   

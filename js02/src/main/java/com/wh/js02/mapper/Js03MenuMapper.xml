@@ -23,6 +23,7 @@
     <include refid="Base_Column_List" />
     from js03_menu
     where id = #{id,jdbcType=INTEGER}
+    order by id desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from js03_menu
@@ -172,6 +173,7 @@
     select id, menu_name,permission_value,parent_id,TYPE ,sort
     from js03_menu
     WHERE status=${1}
+    order by id desc
 
   </select>
 
@@ -195,6 +197,7 @@
     where status = ${1} AND
     menu_name like concat('%',#{searchKey},'%') OR
     permission_value like concat('%',#{searchKey},'%')
+    order by id desc
   </select>
 
 </mapper>

@@ -8,6 +8,7 @@ import com.wh.js02.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class Js03LogServiceImpl implements Js03LogService{
@@ -20,7 +21,7 @@ public class Js03LogServiceImpl implements Js03LogService{
         PageVo pageVo = new PageVo();
 
         int number = pageDTO.getPageSize();
-        int offset = (pageDTO.getPageNo() - 1) * number;
+        int offset =0;
         List<Js03Log> logs = js03LogMapper.query(offset,number);
         int totalLog = js03LogMapper.total();
         int totalPage = (int)Math.ceil((long)totalLog / (long)number);
@@ -44,17 +45,23 @@ public class Js03LogServiceImpl implements Js03LogService{
         PageVo pageVo = new PageVo();
 
         int number = pageDTO.getPageSize();
-        int offset = (pageDTO.getPageNo() - 1) * number;
-        List<Js03Log> logs = js03LogMapper.fuzzyQuery(offset,number,pageDTO.getSearchKey());
-        int total = js03LogMapper.totalFuzzy(pageDTO.getSearchKey());
+        int offset = 0;
+        String searchKey = pageDTO.getSearchKey();
+        Date startTime = pageDTO.getStartTime();
+        Date endTime = pageDTO.getEndTime();
+        List<Js03Log> logs = js03LogMapper.fuzzyQuery(offset,number,searchKey,startTime,endTime);
+        int total = js03LogMapper.totalFuzzy(searchKey,startTime,endTime);
         int totalPage = (int)Math.ceil((long)total / (long)number);
+
 
         pageVo.setListBody(logs);
         pageVo.setTotal(total);
         pageVo.setTotalPage(totalPage);
         pageVo.setPageSize(number);
-        pageVo.setPageNo(pageDTO.getPageNo());
+        pageVo.setPageNo(1);
         return pageVo;
     }
+
+
 }
 

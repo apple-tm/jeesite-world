@@ -15,4 +15,6 @@ public interface Js03LogService {
 
     //模糊查询日志
     PageVo fuzzyQuery(PageDTO pageDTO);
+
+
 }

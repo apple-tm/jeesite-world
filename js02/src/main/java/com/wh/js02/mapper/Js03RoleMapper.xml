@@ -172,7 +172,8 @@
         LEFT JOIN js03_role_menu AS jrm
         ON jr2.id = jrm.role_id
         LEFT JOIN js03_menu AS jm
-        ON jrm.menu_id = jm.id
+        ON jrm.menu_id = jm.
+
   </select>
 
   <select id="fuzzyQuery" resultType="List" resultMap="BaseResultMap">

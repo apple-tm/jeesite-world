@@ -147,6 +147,8 @@ public class LogAop {
                         js03Log.setLogAction("图片模糊查询");
                     } else if (url.contains("/api/log/query")) {
                         js03Log.setLogAction("日志查询");
+                    } else if (url.contains("/api/log/fuzzy")) {
+                        js03Log.setLogAction("日志模糊查询");
                     }
 
                     //当前登录用户

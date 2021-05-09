@@ -1,5 +1,6 @@
 package com.wh.js02.vo;
 
+import java.util.Date;
 import java.util.List;
 
 public class PageVo<T> {
@@ -7,6 +8,7 @@ public class PageVo<T> {
     private Integer pageNo;
 
     private Integer pageSize;
+
     // 总的记录数
     private Integer total;
     // 总的页数
@@ -53,4 +55,5 @@ public class PageVo<T> {
     public void setListBody(T listBody) {
         this.listBody = listBody;
     }
+
 }

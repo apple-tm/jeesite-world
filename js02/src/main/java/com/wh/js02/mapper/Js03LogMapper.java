@@ -5,6 +5,7 @@ import com.wh.js02.entity.Js03User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -30,13 +31,14 @@ public interface Js03LogMapper {
     int deleteById(int id);
 
     //模糊查询日志
-    List<Js03Log> fuzzyQuery(@Param("offset") int offset, @Param("number") int number, @Param("searchKey") String searchKey);
+    List<Js03Log> fuzzyQuery(@Param("offset") int offset, @Param("number") int number, @Param("searchKey") String searchKey,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
 
     //总记录数
     int total();
 
     //模糊总记录数
-    int totalFuzzy(String searchKey);
+    int totalFuzzy(@Param("searchKey") String searchKey,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
+
 
 
 }
